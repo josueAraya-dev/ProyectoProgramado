@@ -9,4 +9,6 @@ public class PrimaryController {
     private void switchToSecondary() throws IOException {
         App.setRoot("secondary");
     }
+    
+    //this is a comment to commit branch
 }
