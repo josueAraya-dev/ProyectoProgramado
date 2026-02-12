@@ -8,6 +8,14 @@ package Model;
  *
  * @author josue
  */
-public class Boleto {
+public abstract class Boleto {
+   
+    private String boletoId;
+
+    public Boleto(String boletoId) {
+        this.boletoId = boletoId;
+    }
+    
+    public abstract double calcularPrecioFinal(double precioBase);
     
 }
