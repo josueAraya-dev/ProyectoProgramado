@@ -19,38 +19,11 @@ public class BoletoVip extends Boleto {
         this.AccesoLounge = true;
         loungeId = loungeId;
     }
-
-    public double getRecargo() {
-        return recargo;
-    }
-
-    public void setRecargo(double recargo) {
-        this.recargo = recargo;
-    }
-
-    public boolean isAccesoLounge() {
-        return AccesoLounge;
-    }
-
-    public void setAccesoLounge(boolean AccesoLounge) {
-        this.AccesoLounge = AccesoLounge;
-    }
-
-    public String getLoungeId() {
-        return loungeId;
-    }
-
-    public void setLoungeId(String loungeId) {
-        this.loungeId = loungeId;
-    }
-
     
     
     @Override
-    public double calcularPrecioFinal(double precioBase) {
-       
-        double precioFinal = precioBase+recargo;
-        
+    public double calcularPrecioFinal() {
+        double precioFinal = this.getEvento().getPrecioBase()+recargo;
         return precioFinal;
     }
     

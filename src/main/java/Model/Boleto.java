@@ -15,7 +15,7 @@ public abstract class Boleto {
     private Asiento asiento;
     private Evento evento;
     
-    public Boleto(String boletoId) {
+    public Boleto(Evento evento, Cliente cliente, String boletoId) {
         this.boletoId = boletoId;
     }
 
@@ -42,9 +42,16 @@ public abstract class Boleto {
     public void setAsiento(Asiento asiento) {
         this.asiento = asiento;
     } 
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
     
     
-    
-    public abstract double calcularPrecioFinal(double precioBase);
+    public abstract double calcularPrecioFinal();
     
 }

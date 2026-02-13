@@ -10,13 +10,13 @@ package Model;
  */
 public class BoletoGeneral  extends Boleto{
 
-    public BoletoGeneral(String boletoId) {
-        super(boletoId);
+    public BoletoGeneral(Evento evento, Cliente cliente, String boletoId) {
+        super(evento, cliente, boletoId);
     }
 
     @Override
-    public double calcularPrecioFinal(double precioBase) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public double calcularPrecioFinal() {    
+        return this.getEvento().getPrecioBase();
     }
     
 }
