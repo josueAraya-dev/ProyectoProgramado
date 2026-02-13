@@ -11,6 +11,11 @@ package Model;
 public class Cliente {
     
     private String idCliente;
+
+    public Cliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
+    
     
     
 }

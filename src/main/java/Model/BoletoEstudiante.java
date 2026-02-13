@@ -10,13 +10,16 @@ package Model;
  */
 public class BoletoEstudiante extends Boleto {
 
+   private double descuento = 0.10;
+    
     public BoletoEstudiante(Evento evento, Cliente cliente, String boletoId) {
         super(evento, cliente, boletoId);
     }
 
     @Override
     public double calcularPrecioFinal() {
-        return 0.0;
+       double precioFinal = getEvento().getPrecioBase() - descuento;
+       return precioFinal;
     }
     
 }

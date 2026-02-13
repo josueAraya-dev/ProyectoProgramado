@@ -4,10 +4,8 @@
  */
 package Model;
 
-/**
- *
- * @author josue
- */
+
+
 public abstract class Boleto {
    
     private String boletoId;
@@ -16,6 +14,8 @@ public abstract class Boleto {
     private Evento evento;
     
     public Boleto(Evento evento, Cliente cliente, String boletoId) {
+        this.evento = evento;
+        this.cliente = cliente;
         this.boletoId = boletoId;
     }
 

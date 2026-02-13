@@ -9,14 +9,14 @@ package Model;
  * @author josue
  */
 public class BoletoGeneral  extends Boleto{
-
+    
     public BoletoGeneral(Evento evento, Cliente cliente, String boletoId) {
         super(evento, cliente, boletoId);
     }
 
     @Override
     public double calcularPrecioFinal() {    
-        return this.getEvento().getPrecioBase();
+       return getEvento().getPrecioBase();
     }
     
 }

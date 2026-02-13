@@ -4,18 +4,16 @@
  */
 package Model;
 
-/**
- *
- * @author josue
- */
+import Model.Evento;
+
 public class BoletoVip extends Boleto {
 
     private double recargo = 5000; 
     private boolean AccesoLounge;
     private String loungeId;
             
-    public BoletoVip(String boletoId, String loungeId) {
-        super(boletoId);
+    public BoletoVip(Evento evento, Cliente cliente, String boletoId, String loungeId) {
+        super(evento, cliente, boletoId);
         this.AccesoLounge = true;
         loungeId = loungeId;
     }
@@ -23,7 +21,7 @@ public class BoletoVip extends Boleto {
     
     @Override
     public double calcularPrecioFinal() {
-        double precioFinal = this.getEvento().getPrecioBase()+recargo;
+        double precioFinal = getEvento().getPrecioBase() + recargo;
         return precioFinal;
     }
     
