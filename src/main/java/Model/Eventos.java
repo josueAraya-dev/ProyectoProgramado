@@ -5,11 +5,11 @@ package Model;
  *
  * @author josue
  */
-public class Evento {
+public class Eventos {
    
   private double precioBase;
 
-    public Evento(double precioBase) {
+    public Eventos(double precioBase) {
         this.precioBase = precioBase;
     }
   

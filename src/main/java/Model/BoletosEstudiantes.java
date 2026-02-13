@@ -8,11 +8,11 @@ package Model;
  *
  * @author josue
  */
-public class BoletoEstudiante extends Boleto {
+public class BoletosEstudiantes extends Boletos {
 
    private double descuento = 0.10;
     
-    public BoletoEstudiante(Evento evento, Cliente cliente, String boletoId) {
+    public BoletosEstudiantes(Eventos evento, Clientes cliente, String boletoId) {
         super(evento, cliente, boletoId);
     }
 

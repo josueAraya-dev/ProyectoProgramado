@@ -8,9 +8,9 @@ package Model;
  *
  * @author josue
  */
-public class BoletoGeneral  extends Boleto{
+public class BoletosGenerales  extends Boletos{
     
-    public BoletoGeneral(Evento evento, Cliente cliente, String boletoId) {
+    public BoletosGenerales(Eventos evento, Clientes cliente, String boletoId) {
         super(evento, cliente, boletoId);
     }
 

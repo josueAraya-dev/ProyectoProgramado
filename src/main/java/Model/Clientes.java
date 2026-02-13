@@ -8,11 +8,11 @@ package Model;
  *
  * @author josue
  */
-public class Cliente {
+public class Clientes {
     
     private String idCliente;
 
-    public Cliente(String idCliente) {
+    public Clientes(String idCliente) {
         this.idCliente = idCliente;
     }
     

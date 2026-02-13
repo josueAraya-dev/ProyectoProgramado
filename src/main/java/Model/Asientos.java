@@ -8,6 +8,6 @@ package Model;
  *
  * @author josue
  */
-public class Asiento {
+public class Asientos {
     
 }

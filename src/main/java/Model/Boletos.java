@@ -6,14 +6,14 @@ package Model;
 
 
 
-public abstract class Boleto {
+public abstract class Boletos {
    
     private String boletoId;
-    private Cliente cliente;
-    private Asiento asiento;
-    private Evento evento;
+    private Clientes cliente;
+    private Asientos asiento;
+    private Eventos evento;
     
-    public Boleto(Evento evento, Cliente cliente, String boletoId) {
+    public Boletos(Eventos evento, Clientes cliente, String boletoId) {
         this.evento = evento;
         this.cliente = cliente;
         this.boletoId = boletoId;
@@ -27,27 +27,27 @@ public abstract class Boleto {
         this.boletoId = boletoId;
     }
 
-    public Cliente getCliente() {
+    public Clientes getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Clientes cliente) {
         this.cliente = cliente;
     }
 
-    public Asiento getAsiento() {
+    public Asientos getAsiento() {
         return asiento;
     }
 
-    public void setAsiento(Asiento asiento) {
+    public void setAsiento(Asientos asiento) {
         this.asiento = asiento;
     } 
 
-    public Evento getEvento() {
+    public Eventos getEvento() {
         return evento;
     }
 
-    public void setEvento(Evento evento) {
+    public void setEvento(Eventos evento) {
         this.evento = evento;
     }
     
