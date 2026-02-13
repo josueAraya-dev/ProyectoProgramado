@@ -13,6 +13,7 @@ public abstract class Boleto {
     private String boletoId;
     private Cliente cliente;
     private Asiento asiento;
+    private Evento evento;
     
     public Boleto(String boletoId) {
         this.boletoId = boletoId;
@@ -40,7 +41,7 @@ public abstract class Boleto {
 
     public void setAsiento(Asiento asiento) {
         this.asiento = asiento;
-    }
+    } 
     
     
     

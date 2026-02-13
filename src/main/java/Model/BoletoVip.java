@@ -10,13 +10,48 @@ package Model;
  */
 public class BoletoVip extends Boleto {
 
-    public BoletoVip(String boletoId) {
+    private double recargo = 5000; 
+    private boolean AccesoLounge;
+    private String loungeId;
+            
+    public BoletoVip(String boletoId, String loungeId) {
         super(boletoId);
+        this.AccesoLounge = true;
+        loungeId = loungeId;
     }
 
+    public double getRecargo() {
+        return recargo;
+    }
+
+    public void setRecargo(double recargo) {
+        this.recargo = recargo;
+    }
+
+    public boolean isAccesoLounge() {
+        return AccesoLounge;
+    }
+
+    public void setAccesoLounge(boolean AccesoLounge) {
+        this.AccesoLounge = AccesoLounge;
+    }
+
+    public String getLoungeId() {
+        return loungeId;
+    }
+
+    public void setLoungeId(String loungeId) {
+        this.loungeId = loungeId;
+    }
+
+    
+    
     @Override
     public double calcularPrecioFinal(double precioBase) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        double precioFinal = precioBase+recargo;
+        
+        return precioFinal;
     }
     
     
