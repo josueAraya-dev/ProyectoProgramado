@@ -1,7 +1,7 @@
 package Model;
 
-import Excepciones_del_programa.AsientoLibreException;
-import Excepciones_del_programa.AsientoOcupadoException;
+import excepciones.AsientoLibreException;
+import excepciones.AsientoOcupadoException;
 
 public class Asientos {
 

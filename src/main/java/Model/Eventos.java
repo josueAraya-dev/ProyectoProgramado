@@ -1,6 +1,8 @@
 package Model;
 
-import Excepciones_del_programa.AsientoNoEncontradoException;
+import excepciones.AsientoNoEncontradoException;
+import excepciones.BoletoNoCreadoException;
+import excepciones.BoletoNoPerteneceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,19 @@ public class Eventos {
     private static int contadorID = 0;
 
     public Eventos(String nombre, LocalDate fechaDelEvento, double precioBase) {
-        
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del evento no puede estar vacío");
+        }
+        if (fechaDelEvento == null || fechaDelEvento.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha del evento no puede ser pasada");
+        }
+        if (precioBase <= 0) {
+            throw new IllegalArgumentException("El precio base debe ser positivo");
+        }
+
         contadorID++;
-        this.idEvento = "EVT-"+contadorID;
+        this.idEvento = "EVT-" + String.format("%04d", contadorID);
         this.nombre = nombre;
         this.fechaDelEvento = fechaDelEvento;
         this.precioBase = precioBase;
@@ -34,7 +46,7 @@ public class Eventos {
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
             for (int columnas = 0; columnas < 10; columnas++) {
-                this.asientos[filas][columnas] = new Asientos(filas,columnas);
+                this.asientos[filas][columnas] = new Asientos(filas, columnas);
             }
         }
     }
@@ -43,70 +55,45 @@ public class Eventos {
         return idEvento;
     }
 
-    public void setIdEvento(String idEvento) {
-        this.idEvento = idEvento;
-    }
-
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public LocalDate getFechaDelEvento() {
         return fechaDelEvento;
     }
 
-    public void setFechaDelEvento(LocalDate fechaDelEvento) {
-        this.fechaDelEvento = fechaDelEvento;
-    }
-
     public double getPrecioBase() {
         return precioBase;
     }
 
-    public void setPrecioBase(double precioBase) {
-        this.precioBase = precioBase;
-    }
+    public Asientos obtenerAsiento(int fila, int columna) throws AsientoNoEncontradoException {
 
-    public Asientos[][] getAsientos() {
-        return asientos;
-    }
+        if (fila >= 0 && fila < 10 && columna >= 0 && columna < 10) {
 
-    public void setAsientos(Asientos[][] asientos) {
-        this.asientos = asientos;
-    }
-
-    public List<Boletos> getBoletosVendidos() {
-        return boletosVendidos;
-    }
-    
-     public void setBoletosVendidos(List<Boletos> boletosVendidos) {
-        this.boletosVendidos = boletosVendidos;
-    }
-
-    public static int getContadorID() {
-        return contadorID;
-    }
-
-    public static void setContadorID(int contadorID) {
-        Eventos.contadorID = contadorID;
-    }
-    
-    public Asientos obtenerAsiento(int fila, int columna) throws AsientoNoEncontradoException{
-    
-        if (fila >=0 && fila <10 && columna >=0 && columna <10 ) {
-        
             return asientos[fila][columna];
         }
-        throw new AsientoNoEncontradoException(fila,columna);
+        throw new AsientoNoEncontradoException(fila, columna);
     }
-    
-    public void agregarBoleto(Boletos boleto){
-    
+
+    public void agregarBoleto(Boletos boleto) throws BoletoNoCreadoException, BoletoNoPerteneceException {
+        if (boleto == null) {
+            throw new BoletoNoCreadoException();
+        }
+        
+        if (!boleto.getEvento().equals(this)) {
+            throw new BoletoNoPerteneceException();
+        }
         boletosVendidos.add(boleto);
     }
 
+    public double recaudacionPorEvento() {
+        double total = 0;
+        for (Boletos boleto : boletosVendidos) {
+
+            total += boleto.calcularPrecioFinal();
+
+        }
+        return total;
+    }
 }

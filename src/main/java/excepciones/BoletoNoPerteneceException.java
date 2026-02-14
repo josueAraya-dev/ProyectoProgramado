@@ -2,16 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Excepciones_del_programa;
+package excepciones;
 
 /**
  *
  * @author josue
  */
-public class AsientoOcupadoException extends Exception{
+public class BoletoNoPerteneceException extends Exception {
 
-    public AsientoOcupadoException() {
-        super("El asiento ya esta Ocupado, no se puede ocupar nuevamente!!");
+    public BoletoNoPerteneceException() {
+        super("El boleto no pertenece a este evento");
     }
     
     
