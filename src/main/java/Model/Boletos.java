@@ -5,17 +5,17 @@
 package Model;
 
 
-
 public abstract class Boletos {
    
     private String boletoId;
     private Clientes cliente;
-    private Asientos asiento;
+    private Asiento asiento;
     private Eventos evento;
     
-    public Boletos(Eventos evento, Clientes cliente, String boletoId) {
+    public Boletos(Eventos evento, Clientes cliente, Asiento asiento, String boletoId) {
         this.evento = evento;
         this.cliente = cliente;
+        this.asiento = asiento;
         this.boletoId = boletoId;
     }
 
@@ -35,11 +35,11 @@ public abstract class Boletos {
         this.cliente = cliente;
     }
 
-    public Asientos getAsiento() {
+    public Asiento getAsiento() {
         return asiento;
     }
 
-    public void setAsiento(Asientos asiento) {
+    public void setAsiento(Asiento asiento) {
         this.asiento = asiento;
     } 
 
