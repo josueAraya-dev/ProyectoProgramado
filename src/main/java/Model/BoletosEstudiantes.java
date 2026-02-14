@@ -12,8 +12,8 @@ public class BoletosEstudiantes extends Boletos {
 
    private double descuento = 0.10;
     
-    public BoletosEstudiantes(Eventos evento, Clientes cliente, String boletoId) {
-        super(evento, cliente, boletoId);
+    public BoletosEstudiantes(Eventos evento, Clientes cliente,Asiento asiento, String boletoId) {
+        super(evento, cliente, asiento, boletoId);
     }
 
     @Override

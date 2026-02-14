@@ -16,7 +16,7 @@ public class Eventos {
     private String nombre;
     private LocalDate fechaDelEvento;
     private double precioBase;
-    private Asientos[][] asientos;
+    private Asiento[][] asientos;
     private List<Boletos> boletosVendidos;
     private static int contadorID = 0;
 
@@ -37,7 +37,7 @@ public class Eventos {
         this.nombre = nombre;
         this.fechaDelEvento = fechaDelEvento;
         this.precioBase = precioBase;
-        this.asientos = new Asientos[10][10];
+        this.asientos = new Asiento[10][10];
         inicializarAsientos();
         this.boletosVendidos = new ArrayList<>();
     }
@@ -45,7 +45,7 @@ public class Eventos {
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
             for (int columnas = 0; columnas < 10; columnas++) {
-                this.asientos[filas][columnas] = new Asientos(filas, columnas);
+                this.asientos[filas][columnas] = new Asiento(filas, columnas);
             }
         }
     }
@@ -66,7 +66,7 @@ public class Eventos {
         return precioBase;
     }
 
-    public Asientos obtenerAsiento(int fila, int columna) {
+    public Asiento obtenerAsiento(int fila, int columna) {
 
         if (fila >= 0 && fila < 10 && columna >= 0 && columna < 10) {
 

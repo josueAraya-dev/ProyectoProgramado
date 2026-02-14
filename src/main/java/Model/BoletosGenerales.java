@@ -10,8 +10,8 @@ package Model;
  */
 public class BoletosGenerales  extends Boletos{
     
-    public BoletosGenerales(Eventos evento, Clientes cliente, String boletoId) {
-        super(evento, cliente, boletoId);
+    public BoletosGenerales(Eventos evento, Clientes cliente,Asiento asiento, String boletoId) {
+        super(evento, cliente, asiento, boletoId);
     }
 
     @Override

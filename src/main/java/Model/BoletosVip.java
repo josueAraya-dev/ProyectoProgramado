@@ -12,8 +12,8 @@ public class BoletosVip extends Boletos {
     private boolean AccesoLounge;
     private String loungeId;
             
-    public BoletosVip(Eventos evento, Clientes cliente, String boletoId, String loungeId) {
-        super(evento, cliente, boletoId);
+    public BoletosVip(Eventos evento, Clientes cliente, Asiento asiento, String boletoId, String loungeId) {
+        super(evento, cliente, asiento, boletoId);
         this.AccesoLounge = true;
         loungeId = loungeId;
     }

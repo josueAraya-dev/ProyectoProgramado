@@ -3,17 +3,17 @@ package Model;
 import excepciones.AsientoLibreException;
 import excepciones.AsientoOcupadoException;
 
-public class Asientos {
+public class Asiento {
 
     private int fila;
     private int columna;
     private EstadoAsientos estado;
 
-    public Asientos(int fila, int columna) {
+    public Asiento(int fila, int columna) {
         this(fila, columna, EstadoAsientos.Disponible);
     }
 
-    public Asientos(int fila, int columna, EstadoAsientos estado) {
+    public Asiento(int fila, int columna, EstadoAsientos estado) {
         if (fila < 0 || columna < 0) {
             throw new IllegalArgumentException("Ingrese solo valores dentro del rango");
         }
