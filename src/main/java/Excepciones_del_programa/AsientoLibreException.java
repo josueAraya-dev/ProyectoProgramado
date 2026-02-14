@@ -8,11 +8,12 @@ package Excepciones_del_programa;
  *
  * @author josue
  */
-public class AsientoOcupadoException extends Exception{
+public class AsientoLibreException extends Exception {
 
-    public AsientoOcupadoException() {
-        super("El asiento ya esta Ocupado, no se puede ocupar nuevamente!!");
+    public AsientoLibreException() {
+        super("El asiento ya esta disponible, verifique el asiento ingresado!!");
     }
+    
     
     
 }

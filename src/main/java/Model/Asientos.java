@@ -1,5 +1,6 @@
 package Model;
 
+import Excepciones_del_programa.AsientoLibreException;
 import Excepciones_del_programa.AsientoOcupadoException;
 
 public class Asientos {
@@ -50,8 +51,12 @@ public class Asientos {
         this.estado = EstadoAsientos.Ocupado;
     }
     
-    public void liberar(){
-    this.estado = EstadoAsientos.Disponible;
+    public void liberar() throws AsientoLibreException{
+    
+        if(this.estado == EstadoAsientos.Disponible){
+            throw new AsientoLibreException();
+        }
+        this.estado = EstadoAsientos.Disponible;
     }
 
 }

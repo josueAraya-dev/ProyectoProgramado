@@ -8,11 +8,12 @@ package Excepciones_del_programa;
  *
  * @author josue
  */
-public class AsientoOcupadoException extends Exception{
+public class AsientoNoEncontradoException extends Exception{
 
-    public AsientoOcupadoException() {
-        super("El asiento ya esta Ocupado, no se puede ocupar nuevamente!!");
+    public AsientoNoEncontradoException(int fila, int columna) {
+        super("El asiento en la poscicion ingresada no ha sido encontrado" +
+                "Posicion buscada: Fila "+fila+" Columna "+columna);
     }
-    
+   
     
 }

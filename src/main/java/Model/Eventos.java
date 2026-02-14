@@ -1,5 +1,6 @@
 package Model;
 
+import Excepciones_del_programa.AsientoNoEncontradoException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,12 @@ public class Eventos {
     private double precioBase;
     private Asientos[][] asientos;
     private List<Boletos> boletosVendidos;
+    private static int contadorID = 0;
 
-    public Eventos(String idEvento, String nombre, LocalDate fechaDelEvento, double precioBase) {
-        this.idEvento = idEvento;
+    public Eventos(String nombre, LocalDate fechaDelEvento, double precioBase) {
+        
+        contadorID++;
+        this.idEvento = "EVT-"+contadorID;
         this.nombre = nombre;
         this.fechaDelEvento = fechaDelEvento;
         this.precioBase = precioBase;
@@ -78,8 +82,31 @@ public class Eventos {
     public List<Boletos> getBoletosVendidos() {
         return boletosVendidos;
     }
-
-    public void setBoletosVendidos(List<Boletos> boletosVendidos) {
+    
+     public void setBoletosVendidos(List<Boletos> boletosVendidos) {
         this.boletosVendidos = boletosVendidos;
     }
+
+    public static int getContadorID() {
+        return contadorID;
+    }
+
+    public static void setContadorID(int contadorID) {
+        Eventos.contadorID = contadorID;
+    }
+    
+    public Asientos obtenerAsiento(int fila, int columna) throws AsientoNoEncontradoException{
+    
+        if (fila >=0 && fila <10 && columna >=0 && columna <10 ) {
+        
+            return asientos[fila][columna];
+        }
+        throw new AsientoNoEncontradoException(fila,columna);
+    }
+    
+    public void agregarBoleto(Boletos boleto){
+    
+        boletosVendidos.add(boleto);
+    }
+
 }
