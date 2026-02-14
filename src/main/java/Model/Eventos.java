@@ -1,7 +1,6 @@
 package Model;
 
 import excepciones.AsientoNoEncontradoException;
-import excepciones.BoletoNoCreadoException;
 import excepciones.BoletoNoPerteneceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -67,7 +66,7 @@ public class Eventos {
         return precioBase;
     }
 
-    public Asientos obtenerAsiento(int fila, int columna) throws AsientoNoEncontradoException {
+    public Asientos obtenerAsiento(int fila, int columna) {
 
         if (fila >= 0 && fila < 10 && columna >= 0 && columna < 10) {
 
@@ -76,12 +75,12 @@ public class Eventos {
         throw new AsientoNoEncontradoException(fila, columna);
     }
 
-    public void agregarBoleto(Boletos boleto) throws BoletoNoCreadoException, BoletoNoPerteneceException {
+    public void agregarBoleto(Boletos boleto)  {
         if (boleto == null) {
-            throw new BoletoNoCreadoException();
+            throw new IllegalArgumentException("El boleto no puede ser null");
         }
         
-        if (!boleto.getEvento().equals(this)) {
+        if (boleto.getEvento() != this) {
             throw new BoletoNoPerteneceException();
         }
         boletosVendidos.add(boleto);

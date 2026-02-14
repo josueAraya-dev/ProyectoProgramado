@@ -8,7 +8,7 @@ package excepciones;
  *
  * @author josue
  */
-public class AsientoLibreException extends Exception {
+public class AsientoLibreException extends RuntimeException {
 
     public AsientoLibreException() {
         super("El asiento ya esta disponible, verifique el asiento ingresado!!");

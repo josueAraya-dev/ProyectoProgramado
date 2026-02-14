@@ -43,7 +43,7 @@ public class Asientos {
         this.estado = estado;
     }
 
-    public void ocupar() throws AsientoOcupadoException {
+    public void ocupar() {
 
         if (this.estado == EstadoAsientos.Ocupado) {
             throw new AsientoOcupadoException();
@@ -51,7 +51,7 @@ public class Asientos {
         this.estado = EstadoAsientos.Ocupado;
     }
     
-    public void liberar() throws AsientoLibreException{
+    public void liberar() {
     
         if(this.estado == EstadoAsientos.Disponible){
             throw new AsientoLibreException();

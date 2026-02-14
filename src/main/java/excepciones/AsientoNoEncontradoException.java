@@ -8,7 +8,7 @@ package excepciones;
  *
  * @author josue
  */
-public class AsientoNoEncontradoException extends Exception{
+public class AsientoNoEncontradoException extends RuntimeException{
 
     public AsientoNoEncontradoException(int fila, int columna) {
         super("El asiento en la poscicion ingresada no ha sido encontrado" +

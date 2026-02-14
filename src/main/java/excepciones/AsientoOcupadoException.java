@@ -8,7 +8,7 @@ package excepciones;
  *
  * @author josue
  */
-public class AsientoOcupadoException extends Exception{
+public class AsientoOcupadoException extends RuntimeException{
 
     public AsientoOcupadoException() {
         super("El asiento ya esta Ocupado, no se puede ocupar nuevamente!!");

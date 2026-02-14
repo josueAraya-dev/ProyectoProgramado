@@ -8,7 +8,7 @@ package excepciones;
  *
  * @author josue
  */
-public class BoletoNoPerteneceException extends Exception {
+public class BoletoNoPerteneceException extends RuntimeException{
 
     public BoletoNoPerteneceException() {
         super("El boleto no pertenece a este evento");
