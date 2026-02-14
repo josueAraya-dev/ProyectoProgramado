@@ -30,7 +30,7 @@ public class Eventos {
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
             for (int columnas = 0; columnas < 10; columnas++) {
-                this.asientos[filas][columnas] = new Asientos();
+                this.asientos[filas][columnas] = new Asientos(filas,columnas);
             }
         }
     }
