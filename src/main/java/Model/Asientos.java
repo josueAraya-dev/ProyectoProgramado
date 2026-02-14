@@ -10,10 +10,18 @@ public class Asientos {
     private EstadoAsientos estado;
 
     public Asientos(int fila, int columna) {
-      this(fila,columna, EstadoAsientos.Disponible);
+        this(fila, columna, EstadoAsientos.Disponible);
     }
 
     public Asientos(int fila, int columna, EstadoAsientos estado) {
+        if (fila < 0 || columna < 0) {
+            throw new IllegalArgumentException("Ingrese solo valores dentro del rango");
+        }
+
+        if (estado == null) {
+            throw new IllegalArgumentException("El estado no puede er nulo");
+        }
+
         this.fila = fila;
         this.columna = columna;
         this.estado = estado;
@@ -23,16 +31,8 @@ public class Asientos {
         return fila;
     }
 
-    public void setFila(int fila) {
-        this.fila = fila;
-    }
-
     public int getColumna() {
         return columna;
-    }
-
-    public void setColumna(int columna) {
-        this.columna = columna;
     }
 
     public EstadoAsientos getEstado() {
@@ -50,10 +50,10 @@ public class Asientos {
         }
         this.estado = EstadoAsientos.Ocupado;
     }
-    
+
     public void liberar() {
-    
-        if(this.estado == EstadoAsientos.Disponible){
+
+        if (this.estado == EstadoAsientos.Disponible) {
             throw new AsientoLibreException();
         }
         this.estado = EstadoAsientos.Disponible;

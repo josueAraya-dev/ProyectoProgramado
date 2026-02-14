@@ -17,7 +17,14 @@ public class BoletosVip extends Boletos {
         this.AccesoLounge = true;
         loungeId = loungeId;
     }
-    
+
+    public double getRecargo() {
+        return recargo;
+    }
+
+    public void setRecargo(double recargo) {
+        this.recargo = recargo;
+    }
     
     @Override
     public double calcularPrecioFinal() {
