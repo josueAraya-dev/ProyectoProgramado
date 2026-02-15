@@ -41,7 +41,7 @@ public class Evento {
         if (actualizarContador) {
             actualizarContador(idEvento);
         }
-    }//constructor "padre del que llaman los otros dos"
+    }//constructor "padre" del que llaman los otros dos
 
     public Evento(String nombre, LocalDate fechaDelEvento, double precioBase) {
 
@@ -127,7 +127,7 @@ public class Evento {
                 }
             }
         }
-    }//lanzar alaerta que esto borrara todo el evento 
+    }//lanzar alerta que esto borrara todo el evento 
 
     public double recaudacionPorEvento() {
         double total = 0;
