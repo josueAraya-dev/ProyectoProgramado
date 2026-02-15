@@ -22,16 +22,10 @@ public class Eventos {
 
     public Eventos(String nombre, LocalDate fechaDelEvento, double precioBase) {
 
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del evento no puede estar vacío");
-        }
-        if (fechaDelEvento == null || fechaDelEvento.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("La fecha del evento no puede ser pasada");
-        }
-        if (precioBase <= 0) {
-            throw new IllegalArgumentException("El precio base debe ser positivo");
-        }
-
+        validarNombre(nombre);
+        validarFecha(fechaDelEvento);
+        validarPrecio(precioBase);
+        
         contadorID++;
         this.idEvento = "EVT-" + String.format("%04d", contadorID);
         this.nombre = nombre;
@@ -42,12 +36,93 @@ public class Eventos {
         this.boletosVendidos = new ArrayList<>();
     }
 
+    //Validaciones 
+    private void validarNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del evento no puede estar vacío");
+        }
+        if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            throw new IllegalArgumentException("El nombre del evento solo puede contener letras y espacios");
+        }
+        if (nombre.trim().length() < 3) {
+            throw new IllegalArgumentException("El nombre del evento debe tener al menos 3 caracteres");
+        }
+    }
+
+    private void validarFecha(LocalDate fecha) {
+        if (fecha == null) {
+            throw new IllegalArgumentException("La fecha del evento no puede ser nula");
+        }
+        if (fecha.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha del evento no puede ser pasada");
+        }
+    } 
+    
+    private void validarPrecio(double precio) {
+        if (precio <= 0) {
+            throw new IllegalArgumentException("El precio base debe ser positivo");
+        }
+        if (precio > 1000000) {
+            throw new IllegalArgumentException("El precio base excede el límite permitido");
+        }
+    }
+    ///
+    
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
             for (int columnas = 0; columnas < 10; columnas++) {
                 this.asientos[filas][columnas] = new Asiento(filas, columnas);
             }
         }
+    }
+
+    public Asiento obtenerAsiento(int fila, int columna) {
+
+        if (fila >= 0 && fila < 10 && columna >= 0 && columna < 10) {
+
+            return asientos[fila][columna];
+        }
+        throw new AsientoNoEncontradoException(fila, columna);
+    }
+
+    public void editarDatos(String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
+
+        if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nombre inválido");
+        }
+
+        if (nuevaFecha == null || nuevaFecha.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Fecha inválida");
+        }
+
+        if (nuevoPrecioBase <= 0) {
+            throw new IllegalArgumentException("Precio inválido");
+        }
+
+        this.nombre = nuevoNombre;
+        this.fechaDelEvento = nuevaFecha;
+        this.precioBase = nuevoPrecioBase;
+    }
+
+    public void agregarBoleto(Boletos boleto) {
+        if (boleto == null) {
+            throw new IllegalArgumentException("El boleto no puede ser null");
+        }
+
+        if (boleto.getEvento() != this) {
+            throw new BoletoNoPerteneceException();
+        }
+        boletosVendidos.add(boleto);
+    }
+
+    public double recaudacionPorEvento() {
+        double total = 0;
+        for (Boletos boleto : boletosVendidos) {
+
+            total += boleto.calcularPrecioFinal();
+
+        }
+        return total;
     }
 
     public String getIdEvento() {
@@ -64,35 +139,5 @@ public class Eventos {
 
     public double getPrecioBase() {
         return precioBase;
-    }
-
-    public Asiento obtenerAsiento(int fila, int columna) {
-
-        if (fila >= 0 && fila < 10 && columna >= 0 && columna < 10) {
-
-            return asientos[fila][columna];
-        }
-        throw new AsientoNoEncontradoException(fila, columna);
-    }
-
-    public void agregarBoleto(Boletos boleto)  {
-        if (boleto == null) {
-            throw new IllegalArgumentException("El boleto no puede ser null");
-        }
-        
-        if (boleto.getEvento() != this) {
-            throw new BoletoNoPerteneceException();
-        }
-        boletosVendidos.add(boleto);
-    }
-
-    public double recaudacionPorEvento() {
-        double total = 0;
-        for (Boletos boleto : boletosVendidos) {
-
-            total += boleto.calcularPrecioFinal();
-
-        }
-        return total;
     }
 }

@@ -55,8 +55,19 @@ public class GestorEventos {
         if (evento == null) {
             throw new IllegalArgumentException("No existe un evento con el id: " + id);
         }
-        
-         eventosCreados.remove(evento);
+
+        eventosCreados.remove(evento);
+    }
+
+    public void editarEvento(String id, String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
+
+        Eventos evento = buscarEventoPorId(id);
+
+        if (evento == null) {
+            throw new IllegalArgumentException("Evento no encontrado");
+        }
+
+        evento.editarDatos(nuevoNombre, nuevaFecha, nuevoPrecioBase);
     }
 
     public List<Eventos> getEventos() {
