@@ -15,7 +15,7 @@ public class BoletoVIP extends Boleto {
     public BoletoVIP(Evento evento, Cliente cliente, Asiento asiento, String boletoId, String loungeId) {
         super(evento, cliente, asiento, boletoId);
         this.AccesoLounge = true;
-        loungeId = loungeId;
+        this.loungeId = loungeId;
     }
 
     public double getRecargo() {

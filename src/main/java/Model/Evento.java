@@ -1,5 +1,6 @@
 package Model;
 
+import excepciones.AsientoLibreException;
 import excepciones.AsientoNoEncontradoException;
 import excepciones.BoletoNoPerteneceException;
 import java.time.LocalDate;
@@ -25,7 +26,7 @@ public class Evento {
         validarNombre(nombre);
         validarFecha(fechaDelEvento);
         validarPrecio(precioBase);
-        
+
         contadorID++;
         this.idEvento = "EVT-" + String.format("%04d", contadorID);
         this.nombre = nombre;
@@ -56,8 +57,8 @@ public class Evento {
         if (fecha.isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("La fecha del evento no puede ser pasada");
         }
-    } 
-    
+    }
+
     private void validarPrecio(double precio) {
         if (precio <= 0) {
             throw new IllegalArgumentException("El precio base debe ser positivo");
@@ -67,7 +68,7 @@ public class Evento {
         }
     }
     ///
-    
+
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
             for (int columnas = 0; columnas < 10; columnas++) {
@@ -114,7 +115,21 @@ public class Evento {
         }
         boletosVendidos.add(boleto);
     }
-
+    
+    public void reiniciarSala() {
+    for (int f = 0; f < asientos.length; f++) {
+        for (int c = 0; c < asientos[f].length; c++) {
+            try {
+                // Intentamos liberar el asiento
+                asientos[f][c].liberar();
+                boletosVendidos.clear();
+            } catch (AsientoLibreException e) {
+               
+            }
+        }
+      }
+    }//lanzar alaerta que esto borrara todo el evento 
+    
     public double recaudacionPorEvento() {
         double total = 0;
         for (Boleto boleto : boletosVendidos) {

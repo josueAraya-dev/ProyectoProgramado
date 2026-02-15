@@ -58,5 +58,9 @@ public class Asiento {
         }
         this.estado = EstadoAsiento.Disponible;
     }
+    
+    public boolean estaDisponible() {
+    return this.estado == EstadoAsiento.Disponible;
+}
 
 }
