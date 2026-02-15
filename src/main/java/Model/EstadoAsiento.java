@@ -1,6 +1,6 @@
 package Model;
 
-enum EstadoAsientos{
+enum EstadoAsiento{
 
     Disponible,
     Ocupado;

@@ -4,15 +4,15 @@
  */
 package Model;
 
-import Model.Eventos;
+import Model.Evento;
 
-public class BoletosVip extends Boletos {
+public class BoletoVIP extends Boleto {
 
     private double recargo = 5000; 
     private boolean AccesoLounge;
     private String loungeId;
             
-    public BoletosVip(Eventos evento, Clientes cliente, Asiento asiento, String boletoId, String loungeId) {
+    public BoletoVIP(Evento evento, Cliente cliente, Asiento asiento, String boletoId, String loungeId) {
         super(evento, cliente, asiento, boletoId);
         this.AccesoLounge = true;
         loungeId = loungeId;

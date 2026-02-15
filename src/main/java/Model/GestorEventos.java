@@ -12,20 +12,20 @@ import java.util.List;
  */
 public class GestorEventos {
 
-    private List<Eventos> eventosCreados;
+    private List<Evento> eventosCreados;
 
     public GestorEventos() {
         this.eventosCreados = new ArrayList<>();
     }
 
-    public Eventos crearEvento(String nombre, LocalDate fecha, double precioBase) {
+    public Evento crearEvento(String nombre, LocalDate fecha, double precioBase) {
 
-        Eventos evento = new Eventos(nombre, fecha, precioBase);
+        Evento evento = new Evento(nombre, fecha, precioBase);
         agregarEvento(evento);
         return evento;
     }
 
-    public void agregarEvento(Eventos evento) {
+    public void agregarEvento(Evento evento) {
 
         if (evento == null) {
             throw new IllegalArgumentException("Evento no puede ser null");
@@ -33,9 +33,9 @@ public class GestorEventos {
         eventosCreados.add(evento);
     }
 
-    public Eventos buscarEventoPorId(String id) {
+    public Evento buscarEventoPorId(String id) {
 
-        for (Eventos evt : eventosCreados) {
+        for (Evento evt : eventosCreados) {
             if (evt.getIdEvento().equals(id)) {
 
                 return evt;
@@ -50,7 +50,7 @@ public class GestorEventos {
             throw new IllegalArgumentException("El id no puede ser null o vacío");
         }
 
-        Eventos evento = buscarEventoPorId(id);
+        Evento evento = buscarEventoPorId(id);
 
         if (evento == null) {
             throw new IllegalArgumentException("No existe un evento con el id: " + id);
@@ -61,7 +61,7 @@ public class GestorEventos {
 
     public void editarEvento(String id, String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
 
-        Eventos evento = buscarEventoPorId(id);
+        Evento evento = buscarEventoPorId(id);
 
         if (evento == null) {
             throw new IllegalArgumentException("Evento no encontrado");
@@ -70,7 +70,7 @@ public class GestorEventos {
         evento.editarDatos(nuevoNombre, nuevaFecha, nuevoPrecioBase);
     }
 
-    public List<Eventos> getEventos() {
+    public List<Evento> getEventos() {
         return Collections.unmodifiableList(eventosCreados);
     }
 }

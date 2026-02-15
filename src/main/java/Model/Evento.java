@@ -10,17 +10,17 @@ import java.util.List;
  *
  * @author josue
  */
-public class Eventos {
+public class Evento {
 
     private String idEvento;
     private String nombre;
     private LocalDate fechaDelEvento;
     private double precioBase;
     private Asiento[][] asientos;
-    private List<Boletos> boletosVendidos;
+    private List<Boleto> boletosVendidos;
     private static int contadorID = 0;
 
-    public Eventos(String nombre, LocalDate fechaDelEvento, double precioBase) {
+    public Evento(String nombre, LocalDate fechaDelEvento, double precioBase) {
 
         validarNombre(nombre);
         validarFecha(fechaDelEvento);
@@ -104,7 +104,7 @@ public class Eventos {
         this.precioBase = nuevoPrecioBase;
     }
 
-    public void agregarBoleto(Boletos boleto) {
+    public void agregarBoleto(Boleto boleto) {
         if (boleto == null) {
             throw new IllegalArgumentException("El boleto no puede ser null");
         }
@@ -117,7 +117,7 @@ public class Eventos {
 
     public double recaudacionPorEvento() {
         double total = 0;
-        for (Boletos boleto : boletosVendidos) {
+        for (Boleto boleto : boletosVendidos) {
 
             total += boleto.calcularPrecioFinal();
 

@@ -9,12 +9,12 @@ package Model;
  * @author josue
  */
 
-public class Clientes {
+public class Cliente {
     
     private String nombre;
     private String idCliente;
 
-    public Clientes(String nombre, String idCliente) {
+    public Cliente(String nombre, String idCliente) {
         
         validarNombre(nombre);
         validarId(idCliente);

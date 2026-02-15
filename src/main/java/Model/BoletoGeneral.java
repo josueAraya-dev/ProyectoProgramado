@@ -8,18 +8,15 @@ package Model;
  *
  * @author josue
  */
-public class BoletosEstudiantes extends Boletos {
-
-   private double descuento = 0.10;
+public class BoletoGeneral  extends Boleto{
     
-    public BoletosEstudiantes(Eventos evento, Clientes cliente,Asiento asiento, String boletoId) {
+    public BoletoGeneral(Evento evento, Cliente cliente,Asiento asiento, String boletoId) {
         super(evento, cliente, asiento, boletoId);
     }
 
     @Override
-    public double calcularPrecioFinal() {
-       double precioFinal = getEvento().getPrecioBase() - descuento;
-       return precioFinal;
+    public double calcularPrecioFinal() {    
+       return getEvento().getPrecioBase();
     }
     
 }

@@ -15,20 +15,20 @@ import java.util.List;
  */
 public class GestorClientes {
     
-    private List<Clientes> clientesCreados;
+    private List<Cliente> clientesCreados;
 
     public GestorClientes() {
         this.clientesCreados = new ArrayList<>();
     }
     
-    public Clientes crearCliente(String nombre, String id){
+    public Cliente crearCliente(String nombre, String id){
     
-        Clientes cliente = new Clientes(nombre, id);
+        Cliente cliente = new Cliente(nombre, id);
         agregarCliente(cliente);
         return cliente;
     }
     
-    public void agregarCliente(Clientes cliente){
+    public void agregarCliente(Cliente cliente){
     
         if(cliente == null){
             throw new IllegalArgumentException("Cliente no puede ser null");
@@ -36,9 +36,9 @@ public class GestorClientes {
         clientesCreados.add(cliente);
     }
     
-    public Clientes buscarclientePorId(String id) {
+    public Cliente buscarclientePorId(String id) {
 
-        for (Clientes clt : clientesCreados) {
+        for (Cliente clt : clientesCreados) {
             if (clt.getIdCliente().equals(id)) {
 
                 return clt;
@@ -50,7 +50,7 @@ public class GestorClientes {
     //si da chance agregar metodos de editar y eleminar ya que estos requieren agregar logica
     //de vistas y controladores extra
     
-    public List<Clientes> getClientesCreados() {
+    public List<Cliente> getClientesCreados() {
         return Collections.unmodifiableList(clientesCreados);
     }
 }
