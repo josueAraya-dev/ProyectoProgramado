@@ -21,21 +21,39 @@ public class Evento {
     private List<Boleto> boletosVendidos;
     private static int contadorID = 0;
 
-    public Evento(String nombre, LocalDate fechaDelEvento, double precioBase) {
+    private Evento(String idEvento, String nombre,
+            LocalDate fechaDelEvento, double precioBase,
+            boolean actualizarContador) {
 
         validarNombre(nombre);
         validarFecha(fechaDelEvento);
         validarPrecio(precioBase);
 
-        contadorID++;
-        this.idEvento = "EVT-" + String.format("%04d", contadorID);
+        this.idEvento = idEvento;
         this.nombre = nombre;
         this.fechaDelEvento = fechaDelEvento;
         this.precioBase = precioBase;
+
         this.asientos = new Asiento[10][10];
         inicializarAsientos();
         this.boletosVendidos = new ArrayList<>();
-    }
+
+        if (actualizarContador) {
+            actualizarContador(idEvento);
+        }
+    }//constructor "padre del que llaman los otros dos"
+
+    public Evento(String nombre, LocalDate fechaDelEvento, double precioBase) {
+
+        this("EVT-" + String.format("%04d", ++contadorID), nombre,
+                fechaDelEvento, precioBase, false);
+    }//constructor para creacion de eventos uso basico;
+
+    public Evento(String idEvento, String nombre,
+            LocalDate fechaDelEvento, double precioBase) {
+
+        this(idEvento, nombre, fechaDelEvento, precioBase, true);
+    }//constructor para cargar desde archivos y mantener persistencia del id
 
     //Validaciones 
     private void validarNombre(String nombre) {
@@ -49,25 +67,6 @@ public class Evento {
             throw new IllegalArgumentException("El nombre del evento debe tener al menos 3 caracteres");
         }
     }
-
-    private void validarFecha(LocalDate fecha) {
-        if (fecha == null) {
-            throw new IllegalArgumentException("La fecha del evento no puede ser nula");
-        }
-        if (fecha.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("La fecha del evento no puede ser pasada");
-        }
-    }
-
-    private void validarPrecio(double precio) {
-        if (precio <= 0) {
-            throw new IllegalArgumentException("El precio base debe ser positivo");
-        }
-        if (precio > 1000000) {
-            throw new IllegalArgumentException("El precio base excede el límite permitido");
-        }
-    }
-    ///
 
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
@@ -115,21 +114,21 @@ public class Evento {
         }
         boletosVendidos.add(boleto);
     }
-    
+
     public void reiniciarSala() {
-    for (int f = 0; f < asientos.length; f++) {
-        for (int c = 0; c < asientos[f].length; c++) {
-            try {
-                // Intentamos liberar el asiento
-                asientos[f][c].liberar();
-                boletosVendidos.clear();
-            } catch (AsientoLibreException e) {
-               
+        for (int f = 0; f < asientos.length; f++) {
+            for (int c = 0; c < asientos[f].length; c++) {
+                try {
+                    // Intentamos liberar el asiento
+                    asientos[f][c].liberar();
+                    boletosVendidos.clear();
+                } catch (AsientoLibreException e) {
+
+                }
             }
         }
-      }
     }//lanzar alaerta que esto borrara todo el evento 
-    
+
     public double recaudacionPorEvento() {
         double total = 0;
         for (Boleto boleto : boletosVendidos) {
@@ -155,4 +154,30 @@ public class Evento {
     public double getPrecioBase() {
         return precioBase;
     }
+
+    private static void actualizarContador(String id) {
+        int numero = Integer.parseInt(id.split("-")[1]);
+        if (numero > contadorID) {
+            contadorID = numero;
+        }
+    }
+
+    private void validarFecha(LocalDate fecha) {
+        if (fecha == null) {
+            throw new IllegalArgumentException("La fecha del evento no puede ser nula");
+        }
+        if (fecha.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("La fecha del evento no puede ser pasada");
+        }
+    }
+
+    private void validarPrecio(double precio) {
+        if (precio <= 0) {
+            throw new IllegalArgumentException("El precio base debe ser positivo");
+        }
+        if (precio > 1000000) {
+            throw new IllegalArgumentException("El precio base excede el límite permitido");
+        }
+    }
+
 }

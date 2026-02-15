@@ -22,8 +22,24 @@ public class Cliente {
         this.nombre = nombre;
         this.idCliente = idCliente;
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
+    }
     
-    private void validarNombre(String nombre){
+     private void validarNombre(String nombre){
         
         // Validación del nombre
     if (nombre == null || nombre.trim().isEmpty()) {
@@ -48,21 +64,4 @@ public class Cliente {
     }
         
     }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
-    }
-    
 }
