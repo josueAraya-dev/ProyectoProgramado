@@ -61,7 +61,7 @@ public class GestorVentas {
         switch (categoriaBoleto.toUpperCase()) {
             case "VIP":
                 // Se le asigna un ID de Lounge por defecto para la categoría VIP
-                nuevoBoleto = new BoletoVIP(eventoSeleccionado, clienteComprador, asientoObjetivo, idUnicoBoleto, "LOUNGE-A1");
+                nuevoBoleto = new BoletoVIP(eventoSeleccionado, clienteComprador, asientoObjetivo, idUnicoBoleto);
                 break;
             case "ESTUDIANTE":
                 nuevoBoleto = new BoletoEstudiante(eventoSeleccionado, clienteComprador, asientoObjetivo, idUnicoBoleto);

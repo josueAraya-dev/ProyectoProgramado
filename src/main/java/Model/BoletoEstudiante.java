@@ -12,15 +12,10 @@ public class BoletoEstudiante extends Boleto {
 
    private double descuento = 0.10;
     
-    public BoletoEstudiante(Evento evento, Cliente cliente,Asiento asiento) {
-        super(evento, cliente, asiento);
+    public BoletoEstudiante(Evento evento, Cliente cliente,Asiento asiento, String idBoleto) {
+        super(evento, cliente, asiento, idBoleto);
     }//constructor para creacion
-
-    public BoletoEstudiante(Evento evento, Cliente cliente, Asiento asiento, String boletoId) {
-        super(evento, cliente, asiento, boletoId);
-    }//constrcutor para lectura
-      
-    
+ 
     @Override
     public double calcularPrecioFinal() {
        double precioFinal = getEvento().getPrecioBase() - descuento;

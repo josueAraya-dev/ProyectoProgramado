@@ -18,9 +18,9 @@ public class GestorEventos {
         this.eventosCreados = new ArrayList<>();
     }
 
-    public Evento crearEvento(String nombre, LocalDate fecha, double precioBase) {
+    public Evento crearEvento(String id, String nombre, LocalDate fecha, double precioBase) {
 
-        Evento evento = new Evento(nombre, fecha, precioBase);
+        Evento evento = new Evento(id, nombre, fecha, precioBase);
         agregarEvento(evento);
         return evento;
     }

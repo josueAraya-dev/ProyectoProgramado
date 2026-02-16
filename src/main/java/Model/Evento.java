@@ -5,6 +5,7 @@ import excepciones.AsientoNoEncontradoException;
 import excepciones.BoletoNoPerteneceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,11 +20,9 @@ public class Evento {
     private double precioBase;
     private Asiento[][] asientos;
     private List<Boleto> boletosVendidos;
-    private static int contadorID = 0;
 
-    private Evento(String idEvento, String nombre,
-            LocalDate fechaDelEvento, double precioBase,
-            boolean actualizarContador) {
+    public Evento(String idEvento, String nombre,
+            LocalDate fechaDelEvento, double precioBase) {
 
         validarNombre(nombre);
         validarFecha(fechaDelEvento);
@@ -38,36 +37,8 @@ public class Evento {
         inicializarAsientos();
         this.boletosVendidos = new ArrayList<>();
 
-        if (actualizarContador) {
-            actualizarContador(idEvento);
-        }
-    }//constructor "padre" del que llaman los otros dos
-
-    public Evento(String nombre, LocalDate fechaDelEvento, double precioBase) {
-
-        this("EVT-" + String.format("%04d", ++contadorID), nombre,
-                fechaDelEvento, precioBase, false);
-    }//constructor para creacion de eventos uso basico;
-
-    public Evento(String idEvento, String nombre,
-            LocalDate fechaDelEvento, double precioBase) {
-
-        this(idEvento, nombre, fechaDelEvento, precioBase, true);
-    }//constructor para cargar desde archivos y mantener persistencia del id
-
-    //Validaciones 
-    private void validarNombre(String nombre) {
-        if (nombre == null || nombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del evento no puede estar vacío");
-        }
-        if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
-            throw new IllegalArgumentException("El nombre del evento solo puede contener letras y espacios");
-        }
-        if (nombre.trim().length() < 3) {
-            throw new IllegalArgumentException("El nombre del evento debe tener al menos 3 caracteres");
-        }
     }
-
+    
     private void inicializarAsientos() {
         for (int filas = 0; filas < 10; filas++) {
             for (int columnas = 0; columnas < 10; columnas++) {
@@ -155,10 +126,22 @@ public class Evento {
         return precioBase;
     }
 
-    private static void actualizarContador(String id) {
-        int numero = Integer.parseInt(id.split("-")[1]);
-        if (numero > contadorID) {
-            contadorID = numero;
+    public List<Boleto> getBoletosVendidos() {
+        return Collections.unmodifiableList(boletosVendidos);
+    }
+    
+    
+
+    //Validaciones 
+    private void validarNombre(String nombre) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre del evento no puede estar vacío");
+        }
+        if (!nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            throw new IllegalArgumentException("El nombre del evento solo puede contener letras y espacios");
+        }
+        if (nombre.trim().length() < 3) {
+            throw new IllegalArgumentException("El nombre del evento debe tener al menos 3 caracteres");
         }
     }
 
