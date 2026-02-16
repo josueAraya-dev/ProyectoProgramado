@@ -16,7 +16,7 @@ public class BoletoVIP extends Boleto {
     public BoletoVIP(Evento evento, Cliente cliente, Asiento asiento, String idBoleto) {
         super(evento, cliente, asiento, idBoleto);
         this.AccesoLounge = true;
-       // this.loungeId = loungeId;
+        this.loungeId = "PLATINUM-S1";
     }//constructor para creacion de boletos
 
     public double getRecargo() {

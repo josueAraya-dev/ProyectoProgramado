@@ -1,7 +1,6 @@
 package Model;
 
 import excepciones.AsientoLibreException;
-import excepciones.AsientoNoEncontradoException;
 import excepciones.BoletoNoPerteneceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class Evento {
     private String nombre;
     private LocalDate fechaDelEvento;
     private double precioBase;
-    private Asiento[][] asientos;
+    private Sala sala;
     private List<Boleto> boletosVendidos;
 
     public Evento(String idEvento, String nombre,
@@ -32,28 +31,9 @@ public class Evento {
         this.nombre = nombre;
         this.fechaDelEvento = fechaDelEvento;
         this.precioBase = precioBase;
-
-        this.asientos = new Asiento[10][10];
-        inicializarAsientos();
+        this.sala = new Sala();
         this.boletosVendidos = new ArrayList<>();
 
-    }
-    
-    private void inicializarAsientos() {
-        for (int filas = 0; filas < 10; filas++) {
-            for (int columnas = 0; columnas < 10; columnas++) {
-                this.asientos[filas][columnas] = new Asiento(filas, columnas);
-            }
-        }
-    }
-
-    public Asiento obtenerAsiento(int fila, int columna) {
-
-        if (fila >= 0 && fila < 10 && columna >= 0 && columna < 10) {
-
-            return asientos[fila][columna];
-        }
-        throw new AsientoNoEncontradoException(fila, columna);
     }
 
     public void editarDatos(String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
@@ -86,20 +66,6 @@ public class Evento {
         boletosVendidos.add(boleto);
     }
 
-    public void reiniciarSala() {
-        for (int f = 0; f < asientos.length; f++) {
-            for (int c = 0; c < asientos[f].length; c++) {
-                try {
-                    // Intentamos liberar el asiento
-                    asientos[f][c].liberar();
-                    boletosVendidos.clear();
-                } catch (AsientoLibreException e) {
-
-                }
-            }
-        }
-    }//lanzar alerta que esto borrara todo el evento 
-
     public double recaudacionPorEvento() {
         double total = 0;
         for (Boleto boleto : boletosVendidos) {
@@ -109,6 +75,15 @@ public class Evento {
         }
         return total;
     }
+
+    public Asiento obtenerAsiento(int fila, int columna) {
+        return this.sala.obtenerAsiento(fila, columna);
+    }//metodo puente, para no hacer atributos de sala, si no que se accede desde el evento pero sin logica
+
+
+    public void ejecutarReinicioDeSala() {
+        this.sala.reiniciarSala();
+    }//metodo puente, para acceder a funcionalidades de la sala
 
     public String getIdEvento() {
         return idEvento;
@@ -128,6 +103,10 @@ public class Evento {
 
     public List<Boleto> getBoletosVendidos() {
         return Collections.unmodifiableList(boletosVendidos);
+    }
+
+    public Sala getSala() {
+        return sala;
     }
     
 
