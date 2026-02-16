@@ -53,4 +53,10 @@ public class GestorClientes {
     public List<Cliente> getClientesCreados() {
         return Collections.unmodifiableList(clientesCreados);
     }
+
+    public void setClientesCreados(List<Cliente> clientesCreados) {
+        this.clientesCreados = clientesCreados;
+    }
+    
+    
 }

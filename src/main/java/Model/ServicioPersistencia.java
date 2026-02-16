@@ -48,8 +48,86 @@ public List<Evento> cargarEventos() throws IOException {
     }
     return lista;
 }
+    
+// --- GUARDAR CLIENTES ---
+    private void guardarClientes(List<Cliente> clientes) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (Cliente c : clientes) {
+            sb.append(c.getIdCliente()).append(";")
+              .append(c.getNombre()).append("\n");
+        }
+        Files.writeString(Paths.get(FILE_CLIENTES), sb.toString());
+    }
+    
+    public List<Cliente> cargarClientes() throws IOException {
+    List<Cliente> lista = new ArrayList<>();
+    Path path = Paths.get(FILE_CLIENTES);
+    if (!Files.exists(path)) return lista;
 
+    for (String linea : Files.readAllLines(path)) {
+        String[] d = linea.split(";");
+        // d[0] = id, d[1] = nombre
+        lista.add(new Cliente(d[0], d[1]));
+    }
+    return lista;
+}
 
+    // --- GUARDAR BOLETOS (Las Ventas) ---
+    private void guardarBoletos(List<Evento> eventos) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        for (Evento e : eventos) {
+            for (Boleto b : e.getBoletosVendidos()) {
+                sb.append(b.getClass().getSimpleName()).append(";") // Para saber si es VIP, etc.
+                  .append(b.getIdBoleto()).append(";")
+                  .append(e.getIdEvento()).append(";")
+                  .append(b.getCliente().getIdCliente()).append(";")
+                  .append(b.getAsiento().getFila()).append(";")
+                  .append(b.getAsiento().getColumna()).append("\n");
+            }
+        }
+        Files.writeString(Paths.get(FILE_BOLETOS), sb.toString());
+    }
+    
+    public void cargarVentas(GestorEventos ge, GestorClientes gc) throws IOException {
+    Path path = Paths.get(FILE_BOLETOS);
+    if (!Files.exists(path)) return;
 
+    for (String linea : Files.readAllLines(path)) {
+        String[] d = linea.split(";");
+        
+        String tipoBoleto = d[0]; // BoletoVIP, BoletoEstudiante, etc.
+        String idBoleto = d[1];
+        String idEvento = d[2];
+        String idCliente = d[3];
+        int fila = Integer.parseInt(d[4]);
+        int col = Integer.parseInt(d[5]);
+
+        // Buscamos los objetos reales que ya están en los gestores
+        Evento evento = ge.buscarEventoPorId(idEvento);
+        Cliente cliente = gc.buscarclientePorId(idCliente);
+        
+        if (evento != null && cliente != null) {
+            Asiento asiento = evento.obtenerAsiento(fila, col);
+            Boleto nuevoBoleto;
+
+            // Polimorfismo: creamos el tipo correcto de boleto
+            switch (tipoBoleto) {
+                case "BoletoVIP":
+                    nuevoBoleto = new BoletoVIP(evento, cliente, asiento, idBoleto);
+                    break;
+                case "BoletoEstudiante":
+                    nuevoBoleto = new BoletoEstudiante(evento, cliente, asiento, idBoleto);
+                    break;
+                default:
+                    nuevoBoleto = new BoletoGeneral(evento, cliente, asiento, idBoleto);
+                    break;
+            }
+            
+            // Lo agregamos a la lista de ventas del evento para que el reporte sea correcto
+            evento.agregarBoleto(nuevoBoleto);
+        }
+    }
+}
+    
 }
  

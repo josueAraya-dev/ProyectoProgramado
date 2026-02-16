@@ -70,7 +70,13 @@ public class GestorEventos {
         evento.editarDatos(nuevoNombre, nuevaFecha, nuevoPrecioBase);
     }
 
-    public List<Evento> getEventos() {
+    public List<Evento> getEventosCreados() {
         return Collections.unmodifiableList(eventosCreados);
     }
+
+    public void setEventosCreados(List<Evento> eventosCreados) {
+        this.eventosCreados = eventosCreados;
+    }
+    
+    
 }
