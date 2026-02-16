@@ -14,8 +14,7 @@ public class BoletoGeneral  extends Boleto{
     public BoletoGeneral(Evento evento, Cliente cliente, Asiento asiento, String idBoleto) {
         super(evento, cliente, asiento, idBoleto);
     } //constructor para creacion
-    
-
+   
 
     @Override
     public double calcularPrecioFinal() {    

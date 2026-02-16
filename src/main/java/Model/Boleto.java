@@ -5,7 +5,7 @@
 package Model;
 
 
-public abstract class Boleto {
+public abstract class Boleto implements IImprimible {
    
     private String idBoleto;
     private Cliente cliente;
@@ -55,5 +55,16 @@ public abstract class Boleto {
     }
     
     public abstract double calcularPrecioFinal();
+
+    @Override
+    public String imprimir() {
+     
+   
+        return "----- TICKET -----\n"
+                + "ID: " + idBoleto + "\n"
+                + "Cliente: " + cliente.getNombre() + "\n"
+                + "Evento: " + evento.getNombre() + "\n"
+                + "Precio: " + calcularPrecioFinal();
+    }
     
 }

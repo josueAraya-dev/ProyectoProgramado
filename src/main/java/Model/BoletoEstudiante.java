@@ -16,6 +16,12 @@ public class BoletoEstudiante extends Boleto {
         super(evento, cliente, asiento, idBoleto);
     }//constructor para creacion
  
+      @Override
+    public String imprimir() {
+        return super.imprimir()+"\nDescuento:"+ descuento*100 +"%";
+                
+    }
+    
     @Override
     public double calcularPrecioFinal() {
        double precioFinal = getEvento().getPrecioBase() - descuento;

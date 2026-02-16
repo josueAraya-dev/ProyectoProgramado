@@ -130,7 +130,6 @@ public class Evento {
         return Collections.unmodifiableList(boletosVendidos);
     }
     
-    
 
     //Validaciones 
     private void validarNombre(String nombre) {

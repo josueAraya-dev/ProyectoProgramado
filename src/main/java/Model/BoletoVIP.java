@@ -16,7 +16,7 @@ public class BoletoVIP extends Boleto {
     public BoletoVIP(Evento evento, Cliente cliente, Asiento asiento, String idBoleto) {
         super(evento, cliente, asiento, idBoleto);
         this.AccesoLounge = true;
-        this.loungeId = loungeId;
+       // this.loungeId = loungeId;
     }//constructor para creacion de boletos
 
     public double getRecargo() {
@@ -27,6 +27,12 @@ public class BoletoVIP extends Boleto {
         this.recargo = recargo;
     }
 
+      @Override
+    public String imprimir() {
+        return super.imprimir()+"\nAcceso a lounge:"+AccesoLounge;
+                
+    }
+    
     @Override
     public double calcularPrecioFinal() {
         double precioFinal = getEvento().getPrecioBase() + recargo;
