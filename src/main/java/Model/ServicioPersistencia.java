@@ -13,6 +13,8 @@ public class ServicioPersistencia {
     private final String FILE_CLIENTES = "clientes.csv";
     private final String FILE_BOLETOS = "boletos.csv";
 
+    
+    
     // --- DENTRO DE guardarEventos ---
 private void guardarEventos(List<Evento> eventos) throws IOException {
     StringBuilder sb = new StringBuilder();
@@ -128,3 +130,21 @@ public List<Evento> cargarEventos() throws IOException {
     
 }
  
+
+/**
+ * FLUJO DE PERSISTENCIA
+ * 
+ * CARGA (orden estricto):
+ *   1. Eventos    → Objetos base con sus salas
+ *   2. Clientes   → Compradores registrados
+ *   3. Ventas     → Relaciones Evento-Cliente-Asiento
+ *   4. Sincronizar contador → Evita IDs duplicados (CRÍTICO)
+ * 
+ * GUARDADO (orden recomendado):
+ *   1. Eventos    → eventos.csv
+ *   2. Clientes   → clientes.csv
+ *   3. Boletos    → boletos.csv
+ * 
+ * ⚠️ IMPORTANTE: No alterar el orden de carga. Los boletos dependen de
+ * que eventos y clientes ya estén cargados en memoria.
+ */
