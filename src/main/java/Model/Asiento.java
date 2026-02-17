@@ -60,7 +60,7 @@ public class Asiento {
     }
     
     public boolean estaDisponible() {
-    return this.estado == EstadoAsiento.Disponible;
+    return this.estado == EstadoAsiento.Disponible;    
 }
 
 }

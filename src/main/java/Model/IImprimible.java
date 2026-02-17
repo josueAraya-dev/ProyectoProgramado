@@ -10,5 +10,5 @@ package Model;
  */
 public interface IImprimible {
     
-    public String imprimir();
+    String imprimir();
 }

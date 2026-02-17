@@ -29,9 +29,10 @@ public class BoletoVIP extends Boleto {
 
       @Override
     public String imprimir() {
-        return super.imprimir()+"\nAcceso a lounge:"+AccesoLounge;
+        return super.imprimir()+"\nAcceso a lounge:"+AccesoLounge+
+                "\nLounge id:"+loungeId;
                 
-    }
+    }//////
     
     @Override
     public double calcularPrecioFinal() {

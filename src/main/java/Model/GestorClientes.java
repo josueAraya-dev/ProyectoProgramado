@@ -47,8 +47,6 @@ public class GestorClientes {
         throw new ClienteNoEncontradoException(id);
     }
 
-    //si da chance agregar metodos de editar y eleminar ya que estos requieren agregar logica
-    //de vistas y controladores extra
     
     public List<Cliente> getClientesCreados() {
         return Collections.unmodifiableList(clientesCreados);
@@ -58,5 +56,5 @@ public class GestorClientes {
         this.clientesCreados = clientesCreados;
     }
     
-    
+   
 }

@@ -38,17 +38,9 @@ public class Evento {
 
     public void editarDatos(String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
 
-        if (nuevoNombre == null || nuevoNombre.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nombre inválido");
-        }
-
-        if (nuevaFecha == null || nuevaFecha.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("Fecha inválida");
-        }
-
-        if (nuevoPrecioBase <= 0) {
-            throw new IllegalArgumentException("Precio inválido");
-        }
+        validarNombre(nuevoNombre);
+        validarFecha(nuevaFecha);
+        validarPrecio(nuevoPrecioBase);
 
         this.nombre = nuevoNombre;
         this.fechaDelEvento = nuevaFecha;
