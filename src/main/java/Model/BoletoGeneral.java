@@ -9,10 +9,16 @@ package Model;
  * @author josue
  */
 public class BoletoGeneral  extends Boleto{
+
     
-    public BoletoGeneral(Evento evento, Cliente cliente, String boletoId) {
-        super(evento, cliente, boletoId);
-    }
+    public BoletoGeneral(Evento evento, Cliente cliente, Asiento asiento) {
+        super(evento, cliente, asiento);
+    }//constructor para nuevos booletos
+    
+    public BoletoGeneral(Evento evento, Cliente cliente, Asiento asiento, String idBoleto) {
+        super(evento, cliente, asiento, idBoleto);
+    } //constructor para cpersistencia
+   
 
     @Override
     public double calcularPrecioFinal() {    
