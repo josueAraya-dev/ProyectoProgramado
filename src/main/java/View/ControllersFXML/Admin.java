@@ -1,12 +1,16 @@
 package View.ControllersFXML;
+
 import View.MainFXML.App;
-import java.io.IOException;
-import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import java.util.Optional;
+
+/**
+ * NOTA PARA JOSUÉ (MODELO): Los campos txtEventoNombre, txtPrecioBase y dpFecha 
+ * deben usarse para instanciar tu clase Evento.
+ * * NOTA PARA ISMAEL (CONTROLADOR): En guardarEvento() debés capturar el objeto 
+ * creado y añadirlo a la lista global que usará el ComboBox de la VentanaPrincipal.
+ */
 public class Admin {
 
     @FXML private TextField txtEventoNombre;
@@ -14,55 +18,57 @@ public class Admin {
     @FXML private DatePicker dpFecha;
     @FXML private TextArea txtAreaReporte;
     @FXML private Label lblTotalRecaudado;
+    @FXML private TextField txtBusquedaId;
 
     @FXML
-    private void switchToVentas() throws IOException {
-       
-        App.setRoot("VentanaPrincipal");
-    }
-
-
-@FXML
-private void reiniciarSala() {
-    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-    alert.setTitle("Confirmación de Seguridad");
-    alert.setHeaderText("¿Desea limpiar TODA la sala?");
-    alert.setContentText("Esta acción pondrá los 100 asientos en verde. No se puede deshacer.");
-
-   
-    Optional<ButtonType> result = alert.showAndWait();
-
-    if (result.isPresent() && result.get() == ButtonType.OK) {
-        // Aquí Ismael pondrá el ciclo 'for' que recorre la matriz
-        // y pone matrizAsientos[f][c].setStyle("-fx-background-color: green;");
-        // Además de habilitarlos: setDisable(false);
-        txtAreaReporte.appendText("\nSALA REINICIADA POR EL ADMINISTRADOR.");
-    }
-}
-@FXML private TextField txtBusquedaId;
-
-
-@FXML
-private void guardarEvento() {
-    try {
-        double precio = Double.parseDouble(txtPrecioBase.getText());
-        if (precio <= 0) {
-            mostrarAlerta("Precio Inválido", "El precio debe ser mayor a 0", Alert.AlertType.ERROR);
-            return;
+    private void switchToVentas() {
+        try {
+            App.setRoot("VentanaPrincipal");
+        } catch (Exception e) {
+            mostrarAlerta("Error de Navegación", "No se pudo cargar la ventana de ventas.", Alert.AlertType.ERROR);
         }
-        // Si pasa, Ismael guarda el evento...
-        txtAreaReporte.appendText("\nEvento guardado con precio: ₡" + precio);
-    } catch (NumberFormatException e) {
-        mostrarAlerta("Error de Precio", "Por favor, ingrese solo números en el precio base.", Alert.AlertType.ERROR);
     }
-}
 
+    @FXML
+    private void reiniciarSala() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación de Seguridad");
+        alert.setHeaderText("¿Desea limpiar TODA la sala?");
+        alert.setContentText("Esta acción pondrá los 100 asientos en verde. No se puede deshacer.");
 
-private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
-    Alert alert = new Alert(tipo);
-    alert.setTitle(titulo);
-    alert.setHeaderText(null);
-    alert.setContentText(mensaje);
-    alert.showAndWait();
-}
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // ISMAEL: Aquí va tu lógica para resetear la matriz de botones y archivos .txt
+            txtAreaReporte.appendText("\nSALA REINICIADA POR EL ADMINISTRADOR.");
+        }
+    }
+
+    @FXML
+    private void guardarEvento() {
+        try {
+            String nombre = txtEventoNombre.getText();
+            double precio = Double.parseDouble(txtPrecioBase.getText());
+            
+            if (nombre.isEmpty() || precio <= 0) {
+                mostrarAlerta("Datos Incompletos", "Asegúrese de poner un nombre y precio mayor a 0", Alert.AlertType.WARNING);
+                return;
+            }
+
+            // ISMAEL: Aquí debés crear el objeto 'new Evento(nombre, precio, fecha)' 
+            // y guardarlo en tu estructura de datos.
+            txtAreaReporte.appendText("\nEvento '" + nombre + "' guardado. Precio: ₡" + precio);
+            
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Error de Precio", "Por favor, ingrese solo números en el precio base.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
 }

@@ -31,6 +31,9 @@
                         <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Configuración del Evento" />
                         <Separator />
                         
+                        <Label text="ID del Evento:" />
+                        <TextField fx:id="txtEventoId" promptText="Ej: EVT-001" />
+
                         <Label text="Nombre del Evento:" />
                         <TextField fx:id="txtEventoNombre" promptText="Ej: Gran Concierto 2026" />
                         
@@ -42,14 +45,25 @@
                         
                         <HBox spacing="10.0">
                            <children>
-                              <Button maxWidth="Infinity" style="-fx-background-color: #2e7d32; -fx-text-fill: white;" text="Guardar" HBox.hgrow="ALWAYS" onAction="#guardarEvento" />
+                              <Button maxWidth="Infinity" onAction="#guardarEvento" style="-fx-background-color: #2e7d32; -fx-text-fill: white;" text="Guardar" HBox.hgrow="ALWAYS" />
                               <Button maxWidth="Infinity" text="Limpiar" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
                         
                         <Separator />
+                        
+                        <Label style="-fx-font-weight: bold;" text="Consultar Cliente" />
+                        <HBox spacing="5.0">
+                           <children>
+                              <TextField fx:id="txtBusquedaId" promptText="Ingrese ID Cliente" HBox.hgrow="ALWAYS" />
+                              <Button style="-fx-background-color: #1976d2; -fx-text-fill: white;" text="Buscar" />
+                           </children>
+                        </HBox>
+                        
+                        <Separator />
+                        
                         <Label style="-fx-font-weight: bold;" text="Control de Sala" />
-                        <Button fx:id="btnReiniciarSala" maxWidth="Infinity" style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR TODA LA SALA" onAction="#reiniciarSala" />
+                        <Button fx:id="btnReiniciarSala" maxWidth="Infinity" onAction="#reiniciarSala" style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR TODA LA SALA" />
                      </children>
                   </VBox>
 
@@ -69,9 +83,7 @@
                </items>
             </SplitPane>
             <Separator />
-
          </children>
-         
       </VBox>
    </children>
 </AnchorPane>
