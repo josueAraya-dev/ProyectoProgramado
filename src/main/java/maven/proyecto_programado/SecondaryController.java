@@ -10,5 +10,5 @@ public class SecondaryController {
         App.setRoot("primary");
     }
     
-    //this is a comment to commit branch
+   
 }
