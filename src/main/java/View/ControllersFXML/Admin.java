@@ -1,5 +1,6 @@
 package View.ControllersFXML;
 
+import Model.DataSystem;
 import View.MainFXML.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -18,15 +19,21 @@ public class Admin {
     }
 
     @FXML
-    private void reiniciarSala() {
-        // La lógica de limpieza de archivos y matriz le toca al controlador
-        txtAreaReporte.appendText("\nSolicitud de reinicio de sala enviada.");
-    }
+private void reiniciarSala() {
+    DataSystem.limpiarSala(); 
+    txtAreaReporte.appendText("\nSala reiniciada. Todos los asientos están disponibles.");
+}
 
-    @FXML
-    private void guardarEvento() {
-        // Solo capturamos para confirmar que la vista funciona
-        String nombre = txtEventoNombre.getText();
-        txtAreaReporte.appendText("\nEvento '" + nombre + "' enviado al sistema.");
+@FXML
+private void guardarEvento() {
+    String nombre = txtEventoNombre.getText();
+    
+    if (!nombre.isEmpty()) {
+      
+        DataSystem.listaEventos.add(nombre); 
+        
+        txtAreaReporte.appendText("\nEvento '" + nombre + "' guardado en la lista global.");
+        txtEventoNombre.clear();
     }
+}
 }
