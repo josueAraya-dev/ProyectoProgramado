@@ -11,7 +11,7 @@ public class DataSystem {
     public static boolean[][] asientosOcupados = new boolean[10][10];
     
    
-    public static void limpiarSala() {
+    public static void limpiarSala() {  
         asientosOcupados = new boolean[10][10]; 
     }
 }
