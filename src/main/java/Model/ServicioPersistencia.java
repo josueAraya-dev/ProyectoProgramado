@@ -78,8 +78,9 @@ public class ServicioPersistencia {
         for (String linea : Files.readAllLines(path)) {
             if (linea.trim().isEmpty()) continue;
             String[] d = linea.split(";");
-            // d[0] = id, d[1] = nombre
-            lista.add(new Cliente(d[0], d[1]));
+            // CORRECCIÓN BUG #6: El constructor pide (Nombre, ID), el CSV guarda (ID, Nombre)
+            // d[1] = nombre, d[0] = id
+            lista.add(new Cliente(d[1], d[0]));
         }
         return lista;
     }
@@ -136,24 +137,55 @@ public class ServicioPersistencia {
                         break;
                 }
                 
+                // CORRECCIÓN: Si el asiento ya fue marcado como Ocupado al cargar el evento, 
+                // no llamamos a ocupar() para evitar la excepción.
+                if (asiento.estaDisponible()) {
+                    asiento.ocupar();
+                }
+                
                 // Lo agregamos a la lista de ventas del evento para que el reporte sea correcto
                 evento.agregarBoleto(nuevoBoleto);
             }
         }
     }
 
-/**
- * FLUJO DE PERSISTENCIA
- * * CARGA (orden estricto):
- * 1. Eventos    → Objetos base con sus salas
- * 2. Clientes   → Compradores registrados
- * 3. Ventas     → Relaciones Evento-Cliente-Asiento
- * 4. Sincronizar contador → Evita IDs duplicados (CRÍTICO)
- * * GUARDADO (orden recomendado):
- * 1. Eventos    → eventos.csv
- * 2. Clientes   → clientes.csv
- * 3. Boletos    → boletos.csv
- * * ⚠️ IMPORTANTE: No alterar el orden de carga. Los boletos dependen de
- * que eventos y clientes ya estén cargados en memoria.
- */
+    public void generarTicketTexto(String contenidoTicket, String idBoleto) {
+        // Creamos una carpeta para los tickets si no existe
+        File directorio = new File("tickets");
+        if (!directorio.exists()) {
+            directorio.mkdir();
+        }
+
+        // El nombre del archivo será el ID del boleto para que no se sobreescriban
+        String nombreArchivo = "tickets/ticket_" + idBoleto + ".txt";
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
+            writer.write("********** FACTURA ELECTRÓNICA **********");
+            writer.newLine();
+            writer.write(contenidoTicket); // Aquí va todo lo que Josué ya imprimía
+            writer.newLine();
+            writer.write("******************************************");
+            writer.newLine();
+            writer.write("Generado el: " + java.time.LocalDateTime.now());
+            
+            System.out.println("Archivo de ticket generado: " + nombreArchivo);
+        } catch (IOException e) {
+            System.err.println("Error al generar el archivo de ticket: " + e.getMessage());
+        }
+    }
+
+    /**
+     * FLUJO DE PERSISTENCIA
+     * * CARGA (orden estricto):
+     * 1. Eventos     → Objetos base con sus salas
+     * 2. Clientes    → Compradores registrados
+     * 3. Ventas      → Relaciones Evento-Cliente-Asiento
+     * 4. Sincronizar contador → Evita IDs duplicados (CRÍTICO)
+     * * GUARDADO (orden recomendado):
+     * 1. Eventos     → eventos.csv
+     * 2. Clientes    → clientes.csv
+     * 3. Boletos     → boletos.csv
+     * * ⚠️ IMPORTANTE: No alterar el orden de carga. Los boletos dependen de
+     * que eventos y clientes ya estén cargados en memoria.
+     */
 }

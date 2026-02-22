@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
 import excepciones.AsientoLibreException;
@@ -62,6 +58,7 @@ public class Sala {
     }//escribe el estado de la matriz en 0 y 1 para guardar el archivo txt (1= ocupado, 0= disponible)
 
     public void importarEstadoAsientos(String mapa) {
+        reiniciarSala(); // Limpiamos antes de importar
         for (int i = 0; i < mapa.length(); i++) {
             if (mapa.charAt(i) == '1') {
                 int f = i / 10;

@@ -1,6 +1,5 @@
 package Model;
 
-import excepciones.AsientoLibreException;
 import excepciones.BoletoNoPerteneceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +35,14 @@ public class Evento {
 
     }
 
+    // Nuevo método para permitir el cambio de ID en edición
+    public void setIdEvento(String idEvento) {
+        if (idEvento == null || idEvento.trim().isEmpty()) {
+            throw new IllegalArgumentException("El ID no puede estar vacío");
+        }
+        this.idEvento = idEvento;
+    }
+
     public void editarDatos(String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
 
         validarNombre(nuevoNombre);
@@ -61,21 +68,18 @@ public class Evento {
     public double recaudacionPorEvento() {
         double total = 0;
         for (Boleto boleto : boletosVendidos) {
-
             total += boleto.calcularPrecioFinal();
-
         }
         return total;
     }
 
     public Asiento obtenerAsiento(int fila, int columna) {
         return this.sala.obtenerAsiento(fila, columna);
-    }//metodo puente, para no hacer atributos de sala, si no que se accede desde el evento pero sin logica
-
+    }
 
     public void ejecutarReinicioDeSala() {
         this.sala.reiniciarSala();
-    }//metodo puente, para acceder a funcionalidades de la sala
+    }
 
     public String getIdEvento() {
         return idEvento;
@@ -100,7 +104,6 @@ public class Evento {
     public Sala getSala() {
         return sala;
     }
-    
 
     //Validaciones 
     private void validarNombre(String nombre) {
@@ -128,9 +131,6 @@ public class Evento {
         if (precio <= 0) {
             throw new IllegalArgumentException("El precio base debe ser positivo");
         }
-        if (precio > 1000000) {
-            throw new IllegalArgumentException("El precio base excede el límite permitido");
-        }
+        // Se eliminó la restricción de 1.000.000
     }
-
 }

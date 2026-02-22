@@ -14,16 +14,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        // Al llamar a getInstance(), el constructor de Contexto ya carga los archivos.
-        Contexto.getInstance(); 
+        // COMENTADO: Ya no cargamos datos automáticamente al iniciar
+        // Contexto.getInstance(); 
 
         scene = new Scene(loadFXML("VentanaPrincipal"), 900, 600);
         stage.setTitle("Sistema de Boletos - Gestión de Eventos");
         
-        // GUARDADO AUTOMÁTICO AL CERRAR
+        // MODIFICADO: Al cerrar solo notificamos, no sobreescribimos los archivos
         stage.setOnCloseRequest(event -> {
-            System.out.println("Cerrando sistema... Guardando datos.");
-            Contexto.getInstance().guardarTodo();
+            System.out.println("Cerrando sistema...");
+            // Si quieres que el usuario elija guardar, esto debería estar en un botón, 
+            // no aquí de forma obligatoria.
         });
 
         stage.setScene(scene);
@@ -35,7 +36,6 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        // Asegúrate de que la ruta "/ViewFXML/" sea correcta en tu estructura de carpetas
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/ViewFXML/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }

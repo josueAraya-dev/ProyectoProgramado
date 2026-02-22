@@ -1,0 +1,8 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-2
+Cliente: Heyner Pitterson
+Evento: Lago patos
+Precio: 5000.0
+******************************************
+Generado el: 2026-02-22T10:32:44.377617100

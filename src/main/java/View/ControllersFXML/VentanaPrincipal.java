@@ -127,43 +127,55 @@ public class VentanaPrincipal implements Initializable {
     }
 
     @FXML
-    private void confirmarCompra() {
-        try {
-            if (eventoSeleccionado == null || filaSeleccionada == -1 || 
-                txtNombre.getText().trim().isEmpty() || txtId.getText().trim().isEmpty() || 
-                comboTipoBoleto.getValue() == null) {
-                mostrarAlerta("Error", "Complete todos los campos y seleccione su asiento.");
-                return;
-            }
-
-            String idCli = txtId.getText().trim();
-            String nomCli = txtNombre.getText().trim();
-
-            // PARCHE PARA LA EXCEPCION DE JOSUE
-            try {
-                Contexto.getInstance().getGestorClientes().buscarclientePorId(idCli);
-            } catch (excepciones.ClienteNoEncontradoException e) {
-                Contexto.getInstance().getGestorClientes().crearCliente(nomCli, idCli);
-            }
-
-            Boleto boleto = gestorVentas.procesarVentaDeBoleto(
-                idCli, nomCli, eventoSeleccionado.getIdEvento(),
-                filaSeleccionada, columnaSeleccionada, comboTipoBoleto.getValue()
-            );
-
-            refrescarMatrizAsientos();
-            mostrarInfo("¡Compra exitosa!", boleto.imprimir());
-
-            // Limpieza
-            filaSeleccionada = -1;
-            columnaSeleccionada = -1;
-            txtNombre.clear();
-            txtId.clear();
-
-        } catch (Exception e) {
-            mostrarAlerta("Error en la compra", e.getMessage());
+private void confirmarCompra() {
+    try {
+        // 1. Validaciones de campos vacíos
+        if (eventoSeleccionado == null || filaSeleccionada == -1 || 
+            txtNombre.getText().trim().isEmpty() || txtId.getText().trim().isEmpty() || 
+            comboTipoBoleto.getValue() == null) {
+            mostrarAlerta("Error", "Complete todos los campos y seleccione su asiento.");
+            return;
         }
+
+        String idCli = txtId.getText().trim();
+        String nomCli = txtNombre.getText().trim();
+
+        // --- CORRECCIÓN DE EXCEPCIÓN: Validar que el ID sea solo números ---
+        if (!idCli.matches("\\d+")) {
+            mostrarAlerta("Error de Formato", "La identificación debe contener únicamente números (sin letras ni espacios).");
+            return;
+        }
+        // -----------------------------------------------------------------
+
+        // PARCHE PARA LA EXCEPCION DE JOSUE
+        try {
+            Contexto.getInstance().getGestorClientes().buscarclientePorId(idCli);
+        } catch (excepciones.ClienteNoEncontradoException e) {
+            Contexto.getInstance().getGestorClientes().crearCliente(nomCli, idCli);
+        }
+
+        Boleto boleto = gestorVentas.procesarVentaDeBoleto(
+            idCli, nomCli, eventoSeleccionado.getIdEvento(),
+            filaSeleccionada, columnaSeleccionada, comboTipoBoleto.getValue()
+        );
+
+        // Generar el archivo de texto para cumplir con el requerimiento de Facturación
+        Contexto.getInstance().getPersistencia().generarTicketTexto(boleto.imprimir(), boleto.getIdBoleto());
+
+        refrescarMatrizAsientos();
+        mostrarInfo("¡Compra exitosa!", "Se ha generado un ticket en la carpeta /tickets\n\n" + boleto.imprimir());
+
+        // Limpieza
+        filaSeleccionada = -1;
+        columnaSeleccionada = -1;
+        txtNombre.clear();
+        txtId.clear();
+
+    } catch (Exception e) {
+        // Este catch general evita que la app se cierre si ocurre algo inesperado
+        mostrarAlerta("Error en la compra", e.getMessage());
     }
+}
 
     @FXML private void switchToAdmin() throws Exception { App.setRoot("Admin"); }
     private void mostrarAlerta(String t, String m) { 
