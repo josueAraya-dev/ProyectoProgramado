@@ -24,13 +24,13 @@ public class BoletoEstudiante extends Boleto {
  
       @Override
     public String imprimir() {
-        return super.imprimir()+"\nDescuento:"+ descuento*100 +"%";
+        return super.imprimir()+"\nDescuento:"+ (descuento*100) +"%";
                 
     }
     
     @Override
     public double calcularPrecioFinal() {
-       double precioFinal = getEvento().getPrecioBase() - descuento;
+       double precioFinal = getEvento().getPrecioBase() - (getEvento().getPrecioBase() * descuento) ;
        return precioFinal;
     }
     

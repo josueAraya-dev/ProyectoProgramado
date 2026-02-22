@@ -55,11 +55,11 @@ public class Cliente {
     }
     
     private void validarId(String id){
-    if (idCliente == null || idCliente.trim().isEmpty()) {
+    if (id == null || id.trim().isEmpty()) {
         throw new IllegalArgumentException("El ID del cliente no puede estar vacío");
     }
    
-    if (idCliente.length() < 5 || idCliente.length() > 20) {
+    if (id.length() < 5 || id.length() > 20) {
         throw new IllegalArgumentException("El ID del cliente debe tener entre 5 y 20 caracteres");
     }
         

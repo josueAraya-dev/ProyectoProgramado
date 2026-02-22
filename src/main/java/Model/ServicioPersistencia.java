@@ -16,7 +16,7 @@ public class ServicioPersistencia {
     
     
     // --- DENTRO DE guardarEventos ---
-private void guardarEventos(List<Evento> eventos) throws IOException {
+public void guardarEventos(List<Evento> eventos) throws IOException {
     StringBuilder sb = new StringBuilder();
     for (Evento e : eventos) {
         sb.append(e.getIdEvento()).append(";")
@@ -49,7 +49,7 @@ public List<Evento> cargarEventos() throws IOException {
 }
     
 // --- GUARDAR CLIENTES ---
-    private void guardarClientes(List<Cliente> clientes) throws IOException {
+    public void guardarClientes(List<Cliente> clientes) throws IOException {
         StringBuilder sb = new StringBuilder();
         for (Cliente c : clientes) {
             sb.append(c.getIdCliente()).append(";")
@@ -66,13 +66,13 @@ public List<Evento> cargarEventos() throws IOException {
     for (String linea : Files.readAllLines(path)) {
         String[] d = linea.split(";");
         // d[0] = id, d[1] = nombre
-        lista.add(new Cliente(d[0], d[1]));
+        lista.add(new Cliente(d[1], d[0]));
     }
     return lista;
 }
 
     // --- GUARDAR BOLETOS (Las Ventas) ---
-    private void guardarBoletos(List<Evento> eventos) throws IOException {
+    public void guardarBoletos(List<Evento> eventos) throws IOException {
         StringBuilder sb = new StringBuilder();
         for (Evento e : eventos) {
             for (Boleto b : e.getBoletosVendidos()) {

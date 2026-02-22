@@ -21,7 +21,7 @@ public abstract class Boleto implements IImprimible {
         this.evento = evento;
         this.cliente = cliente;
         this.asiento = asiento;
-        this.idBoleto = idBoleto;
+        //this.idBoleto = idBoleto;
         this.idBoleto = generarIdBoleto();
     }//constructor para nuevos boletos
     
@@ -38,6 +38,7 @@ public abstract class Boleto implements IImprimible {
         this.cliente = cliente;
         this.asiento = asiento;
         this.idBoleto = idBoleto;
+        
     }//constructor para persistencia recibe parametro id
     
     

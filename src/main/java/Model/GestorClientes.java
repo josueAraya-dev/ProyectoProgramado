@@ -44,7 +44,7 @@ public class GestorClientes {
                 return clt;
             }
         }
-        throw new ClienteNoEncontradoException(id);
+        return null;
     }
 
     

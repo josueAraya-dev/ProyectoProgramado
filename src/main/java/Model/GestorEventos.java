@@ -51,11 +51,6 @@ public class GestorEventos {
         }
 
         Evento evento = buscarEventoPorId(id);
-
-        if (evento == null) {
-            throw new IllegalArgumentException("No existe un evento con el id: " + id);
-        }
-
         eventosCreados.remove(evento);
     }
 

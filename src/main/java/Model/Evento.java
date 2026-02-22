@@ -36,6 +36,9 @@ public class Evento {
 
     }
 
+    public Evento() {
+    }
+
     public void editarDatos(String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
 
         validarNombre(nuevoNombre);
