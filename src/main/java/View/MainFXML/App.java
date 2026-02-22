@@ -1,7 +1,6 @@
 package View.MainFXML;
 
-import Model.DataSystem;
-import Model.Evento;
+import Model.Contexto;
 import Model.ServicioPersistencia;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.List;
 
 public class App extends Application {
 
@@ -17,30 +15,32 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-       
         cargarDatosDesdeArchivos();
-
-        scene = new Scene(loadFXML("VentanaPrincipal"), 640, 480);
+        scene = new Scene(loadFXML("VentanaPrincipal"), 900, 600);
+        stage.setTitle("Sistema de Boletos");
         stage.setScene(scene);
         stage.show();
     }
 
     private void cargarDatosDesdeArchivos() {
         try {
-            ServicioPersistencia persistencia = new ServicioPersistencia();
-            
-            
-            List<Evento> eventosGuardados = persistencia.cargarEventos();
-            
-           
-            for (Evento e : eventosGuardados) {
-                if (!DataSystem.listaEventos.contains(e.getNombre())) {
-                    DataSystem.listaEventos.add(e.getNombre());
-                }
-            }
-            System.out.println("Sincronización inicial completada.");
+            ServicioPersistencia persistencia = Contexto.getInstance().getPersistencia();
+
+            // Carga en orden estricto: Eventos → Clientes → Ventas
+            Contexto.getInstance().getGestorEventos()
+                .setEventosCreados(persistencia.cargarEventos());
+
+            Contexto.getInstance().getGestorClientes()
+                .setClientesCreados(persistencia.cargarClientes());
+
+            persistencia.cargarVentas(
+                Contexto.getInstance().getGestorEventos(),
+                Contexto.getInstance().getGestorClientes()
+            );
+
+            System.out.println("Datos cargados correctamente.");
         } catch (Exception e) {
-            System.err.println("Aún no hay archivos creados o hubo un error: " + e.getMessage());
+            System.err.println("Sin archivos previos o error al cargar: " + e.getMessage());
         }
     }
 
