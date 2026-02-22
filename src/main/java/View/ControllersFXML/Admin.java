@@ -36,6 +36,7 @@ public class Admin implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         gestorEventos = Contexto.getInstance().getGestorEventos();
         verRecaudacion(); 
+        dpFecha.setEditable(false);
     }
 
     @FXML
