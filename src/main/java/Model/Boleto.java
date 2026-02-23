@@ -71,7 +71,7 @@ public abstract class Boleto implements IImprimible {
     }
      
      private String generarIdBoleto() {
-        return "BOL-" + String.format("%06d", contadorBoletos++);
+        return "BOL-" + String.format("%03d", contadorBoletos++);
     }
     
     public String getIdBoleto() {

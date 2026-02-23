@@ -1,15 +1,12 @@
 package View.MainFXML;
 
-import Model.DataSystem;
-import Model.Evento;
-import Model.ServicioPersistencia;
+import Model.Contexto;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.List;
 
 public class App extends Application {
 
@@ -17,31 +14,21 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-       
-        cargarDatosDesdeArchivos();
+        // COMENTADO: Ya no cargamos datos automáticamente al iniciar
+        // Contexto.getInstance(); 
 
-        scene = new Scene(loadFXML("VentanaPrincipal"), 640, 480);
+        scene = new Scene(loadFXML("VentanaPrincipal"), 900, 600);
+        stage.setTitle("Sistema de Boletos - Gestión de Eventos");
+        
+        // MODIFICADO: Al cerrar solo notificamos, no sobreescribimos los archivos
+        stage.setOnCloseRequest(event -> {
+            System.out.println("Cerrando sistema...");
+            // Si quieres que el usuario elija guardar, esto debería estar en un botón, 
+            // no aquí de forma obligatoria.
+        });
+
         stage.setScene(scene);
         stage.show();
-    }
-
-    private void cargarDatosDesdeArchivos() {
-        try {
-            ServicioPersistencia persistencia = new ServicioPersistencia();
-            
-            
-            List<Evento> eventosGuardados = persistencia.cargarEventos();
-            
-           
-            for (Evento e : eventosGuardados) {
-                if (!DataSystem.listaEventos.contains(e.getNombre())) {
-                    DataSystem.listaEventos.add(e.getNombre());
-                }
-            }
-            System.out.println("Sincronización inicial completada.");
-        } catch (Exception e) {
-            System.err.println("Aún no hay archivos creados o hubo un error: " + e.getMessage());
-        }
     }
 
     public static void setRoot(String fxml) throws IOException {

@@ -30,7 +30,8 @@ public class BoletoEstudiante extends Boleto {
     
     @Override
     public double calcularPrecioFinal() {
-       double precioFinal = getEvento().getPrecioBase() - (getEvento().getPrecioBase() * descuento) ;
+       // Se cambia la resta por la multiplicación para aplicar el porcentaje real
+       double precioFinal = getEvento().getPrecioBase() * (1 - descuento);
        return precioFinal;
     }
     

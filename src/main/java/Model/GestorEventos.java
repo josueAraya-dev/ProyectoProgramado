@@ -19,25 +19,35 @@ public class GestorEventos {
     }
 
     public Evento crearEvento(String id, String nombre, LocalDate fecha, double precioBase) {
-
+        // Validación de ID duplicado antes de crear
+        if (existeEvento(id)) {
+            throw new IllegalArgumentException("Ya existe un evento con el ID: " + id);
+        }
         Evento evento = new Evento(id, nombre, fecha, precioBase);
         agregarEvento(evento);
         return evento;
     }
 
     public void agregarEvento(Evento evento) {
-
         if (evento == null) {
             throw new IllegalArgumentException("Evento no puede ser null");
         }
         eventosCreados.add(evento);
     }
 
-    public Evento buscarEventoPorId(String id) {
-
+    // Método nuevo para evitar que el programa falle al validar existencia
+    public boolean existeEvento(String id) {
         for (Evento evt : eventosCreados) {
             if (evt.getIdEvento().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public Evento buscarEventoPorId(String id) {
+        for (Evento evt : eventosCreados) {
+            if (evt.getIdEvento().equals(id)) {
                 return evt;
             }
         }
@@ -45,7 +55,6 @@ public class GestorEventos {
     }
 
     public void eliminarEvento(String id) {
-
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El id no puede ser null o vacío");
         }
@@ -55,13 +64,7 @@ public class GestorEventos {
     }
 
     public void editarEvento(String id, String nuevoNombre, LocalDate nuevaFecha, double nuevoPrecioBase) {
-
         Evento evento = buscarEventoPorId(id);
-
-        if (evento == null) {
-            throw new IllegalArgumentException("Evento no encontrado");
-        }
-
         evento.editarDatos(nuevoNombre, nuevaFecha, nuevoPrecioBase);
     }
 
@@ -69,9 +72,8 @@ public class GestorEventos {
         return Collections.unmodifiableList(eventosCreados);
     }
 
+    // Cambiado para que permita manipular la lista internamente al cargar archivos
     public void setEventosCreados(List<Evento> eventosCreados) {
-        this.eventosCreados = eventosCreados;
+        this.eventosCreados = new ArrayList<>(eventosCreados);
     }
-    
-    
 }

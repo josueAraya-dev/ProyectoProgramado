@@ -1,88 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ControllersFXML.Admin">
+<AnchorPane prefHeight="650.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.ControllersFXML.Admin">
    <children>
-      <VBox spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #616161; -fx-padding: 15;">
+            <HBox alignment="CENTER_LEFT" spacing="20.0" style="-fx-background-color: #2c3e50; -fx-padding: 15;">
                <children>
-                  <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="PANEL ADMINISTRATIVO" />
+                  <Label style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;" text="MODULO ADMINISTRATIVO" />
                   <Region HBox.hgrow="ALWAYS" />
-                  <Button onAction="#switchToVentas" style="-fx-background-color: #f4f4f4; -fx-cursor: hand;" text="Volver a Ventas" />
+                  <Button onAction="#cargarDesdeArchivo" style="-fx-background-color: #f39c12; -fx-text-fill: white;" text="Importar CSV" />
+                  <Button onAction="#guardarEnArchivo" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="Exportar CSV" />
+                  <Button onAction="#switchToVentas" text="Cerrar" />
                </children>
             </HBox>
 
-            <SplitPane dividerPositions="0.4" VBox.vgrow="ALWAYS">
+            <SplitPane dividerPositions="0.45" VBox.vgrow="ALWAYS">
                <items>
                   <VBox spacing="15.0" style="-fx-padding: 20;">
                      <children>
-                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Configuración del Evento" />
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 16px;" text="Datos del Evento" />
+                        <GridPane vgap="12.0">
+                           <columnConstraints>
+                              <ColumnConstraints minWidth="100.0" />
+                              <ColumnConstraints hgrow="ALWAYS" />
+                           </columnConstraints>
+                           <children>
+                              <Label text="ID Evento:" />
+                              <TextField fx:id="txtEventoId" promptText="ID para Crear o Buscar" GridPane.columnIndex="1" />
+                              <Label text="Nombre:" GridPane.rowIndex="1" />
+                              <TextField fx:id="txtEventoNombre" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                              <Label text="Fecha:" GridPane.rowIndex="2" />
+                              <DatePicker fx:id="dpFecha" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                              <Label text="Precio Base:" GridPane.rowIndex="3" />
+                              <TextField fx:id="txtPrecioBase" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                           </children>
+                        </GridPane>
+
+                        <VBox spacing="12.0">
+                           <children>
+                              <Button maxWidth="Infinity" onAction="#guardarEvento" prefHeight="45.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold;" text="CREAR NUEVO EVENTO" />
+                              <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                 <children>
+                                    <Button onAction="#editarEventoPorId" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;" text="EDITAR POR ID" />
+                                    <Button onAction="#eliminarEventoPorId" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-font-weight: bold;" text="ELIMINAR POR ID" />
+                                 </children>
+                              </HBox>
+                              <Button maxWidth="Infinity" onAction="#limpiarFormulario" text="Limpiar Formulario" />
+                           </children>
+                        </VBox>
+
                         <Separator />
                         
-                        <Label text="ID del Evento:" />
-                        <TextField fx:id="txtEventoId" promptText="Ej: EVT-001" />
-
-                        <Label text="Nombre del Evento:" />
-                        <TextField fx:id="txtEventoNombre" promptText="Ej: Gran Concierto 2026" />
-                        
-                        <Label text="Fecha:" />
-                        <DatePicker fx:id="dpFecha" maxWidth="Infinity" promptText="Seleccione fecha" />
-                        
-                        <Label text="Precio Base (₡):" />
-                        <TextField fx:id="txtPrecioBase" promptText="Ej: 5000" />
-                        
+                        <Label style="-fx-font-weight: bold;" text="Consultar Cliente por ID" />
                         <HBox spacing="10.0">
                            <children>
-                              <Button maxWidth="Infinity" onAction="#guardarEvento" style="-fx-background-color: #2e7d32; -fx-text-fill: white;" text="Guardar" HBox.hgrow="ALWAYS" />
-                              <Button maxWidth="Infinity" text="Limpiar" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="txtBusquedaId" promptText="Cédula" HBox.hgrow="ALWAYS" />
+                              <Button onAction="#buscarCliente" prefHeight="35.0" prefWidth="130.0" style="-fx-background-color: #34495e; -fx-text-fill: white; -fx-font-weight: bold;" text="CONSULTAR" />
                            </children>
                         </HBox>
                         
-                        <Separator />
-                        
-                        <Label style="-fx-font-weight: bold;" text="Consultar Cliente" />
-                        <HBox spacing="5.0">
-                           <children>
-                              <TextField fx:id="txtBusquedaId" promptText="Ingrese ID Cliente" HBox.hgrow="ALWAYS" />
-                              <Button style="-fx-background-color: #1976d2; -fx-text-fill: white;" text="Buscar" />
-                           </children>
-                        </HBox>
-                        
-                        <Separator />
-                        
-                        <Label style="-fx-font-weight: bold;" text="Control de Sala" />
-                        <Button fx:id="btnReiniciarSala" maxWidth="Infinity" onAction="#reiniciarSala" style="-fx-background-color: #d32f2f; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR TODA LA SALA" />
+                        <Region VBox.vgrow="ALWAYS" />
+                        <Button maxWidth="Infinity" onAction="#reiniciarSala" prefHeight="50.0" style="-fx-background-color: #000; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR TODAS LAS SALAS" />
                      </children>
                   </VBox>
-
-                  <VBox spacing="15.0" style="-fx-padding: 20;">
+                  <VBox spacing="10.0" style="-fx-padding: 15; -fx-background-color: #f8f9fa;">
                      <children>
-                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Reporte de Ventas y Recaudación" />
-                        <TextArea fx:id="txtAreaReporte" editable="false" promptText="Aquí aparecerán las transacciones..." style="-fx-font-family: 'Courier New';" VBox.vgrow="ALWAYS" />
-                        
-                        <HBox alignment="CENTER_RIGHT" spacing="10.0" style="-fx-background-color: #eeeeee; -fx-padding: 10;">
+                        <Label style="-fx-font-weight: bold;" text="Consola de Reportes:" />
+                        <TextArea fx:id="txtAreaReporte" editable="false" style="-fx-font-family: 'Monospaced'; -fx-font-size: 13px;" VBox.vgrow="ALWAYS" />
+                        <HBox alignment="CENTER_RIGHT" spacing="15.0" style="-fx-background-color: #ecf0f1; -fx-padding: 15;">
                            <children>
                               <Label style="-fx-font-weight: bold;" text="TOTAL RECAUDADO:" />
-                              <Label fx:id="lblTotalRecaudado" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1b5e20;" text="₡0.00" />
+                              <Label fx:id="lblTotalRecaudado" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #27ae60;" text="₡0.00" />
                            </children>
                         </HBox>
                      </children>
                   </VBox>
                </items>
             </SplitPane>
-            <Separator />
          </children>
       </VBox>
    </children>

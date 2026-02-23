@@ -1,0 +1,10 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-1
+Cliente: Heyner Samudio
+Evento: Lago de los cisnes
+Precio: 7500.0
+Acceso a lounge:true
+Lounge id:PLATINUM-S1
+******************************************
+Generado el: 2026-02-22T10:32:29.251231

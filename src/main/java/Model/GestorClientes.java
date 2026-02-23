@@ -52,9 +52,12 @@ public class GestorClientes {
         return Collections.unmodifiableList(clientesCreados);
     }
 
-    public void setClientesCreados(List<Cliente> clientesCreados) {
-        this.clientesCreados = clientesCreados;
+   public void setClientesCreados(List<Cliente> clientesCreados) {
+    // Aseguramos que la lista sea siempre un ArrayList modificable y no nulo
+    if (clientesCreados == null) {
+        this.clientesCreados = new ArrayList<>();
+    } else {
+        this.clientesCreados = new ArrayList<>(clientesCreados);
     }
-    
-   
+}
 }
