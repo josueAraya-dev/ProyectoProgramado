@@ -2,6 +2,7 @@ package View.ControllersFXML;
 
 import Model.Boleto;
 import Model.Contexto;
+import Model.Contexto;
 import Model.Evento;
 import Model.GestorEventos;
 import Model.Cliente;
@@ -30,10 +31,12 @@ public class Admin implements Initializable {
     @FXML private TextField txtBusquedaId;
 
     private GestorEventos gestorEventos;
+    private Contexto contexto;
     private String idMemoriaEdicion = null; 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        contexto = Contexto.getInstance();
         gestorEventos = Contexto.getInstance().getGestorEventos();
         verRecaudacion(); 
         dpFecha.setEditable(false);
@@ -136,6 +139,9 @@ public class Admin implements Initializable {
         try {
             String id = txtEventoId.getText().trim();
             gestorEventos.eliminarEvento(id);
+          
+            contexto.guardarTodo();
+                    
             txtAreaReporte.appendText("\n[ELIMINADO] Evento con ID: " + id);
             verRecaudacion();
             limpiarFormulario();
@@ -203,7 +209,7 @@ private void buscarCliente() {
                       // MEJORA: Aquí incluimos el ID del cliente para que siempre sea visible
                       .append(" | Cliente: ").append(b.getCliente().getNombre())
                       .append(" (ID: ").append(b.getCliente().getIdCliente()).append(")")
-                      .append(" | Asiento: ").append(b.getAsiento().getFila()).append("-").append(b.getAsiento().getColumna())
+                      .append(" | Asiento: ").append(b.getAsiento().getFila()+1).append("-").append(b.getAsiento().getColumna()+1)
                       .append(" | Pago: ₡").append(String.format("%.2f", b.calcularPrecioFinal()))
                       .append("\n");
                 }

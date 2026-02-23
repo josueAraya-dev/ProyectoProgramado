@@ -145,14 +145,6 @@ private void confirmarCompra() {
             mostrarAlerta("Error de Formato", "La identificación debe contener únicamente números (sin letras ni espacios).");
             return;
         }
-        // -----------------------------------------------------------------
-
-        // PARCHE PARA LA EXCEPCION DE JOSUE
-        try {
-            Contexto.getInstance().getGestorClientes().buscarclientePorId(idCli);
-        } catch (excepciones.ClienteNoEncontradoException e) {
-            Contexto.getInstance().getGestorClientes().crearCliente(nomCli, idCli);
-        }
 
         Boleto boleto = gestorVentas.procesarVentaDeBoleto(
             idCli, nomCli, eventoSeleccionado.getIdEvento(),

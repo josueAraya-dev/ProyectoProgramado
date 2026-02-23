@@ -22,9 +22,15 @@ public class GestorClientes {
     }
     
     public Cliente crearCliente(String nombre, String id){
-    
-        Cliente cliente = new Cliente(nombre, id);
+        
+        String idTrm = id.trim();
+        if(buscarclientePorId(idTrm) != null){
+            throw new IllegalArgumentException("Ya existe un cliente registrado con el ID: "+idTrm);
+        }
+         
+        Cliente cliente  = new Cliente(nombre, idTrm);
         agregarCliente(cliente);
+
         return cliente;
     }
     
@@ -44,7 +50,7 @@ public class GestorClientes {
                 return clt;
             }
         }
-        throw new ClienteNoEncontradoException(id);
+        return null;
     }
 
     

@@ -4,15 +4,15 @@ package Model;
  * @author josue (Corregido)
  */
 public class Cliente {
-    
+
     private String nombre;
     private String idCliente;
-
+    
     public Cliente(String nombre, String idCliente) {
         // Primero validamos los parámetros que entran
         validarNombre(nombre);
         validarId(idCliente);
-        
+
         // Si las validaciones pasan, asignamos
         this.nombre = nombre;
         this.idCliente = idCliente;
@@ -35,7 +35,7 @@ public class Cliente {
         validarId(idCliente); // Validar también al editar
         this.idCliente = idCliente;
     }
-    
+
     private void validarNombre(String nombre) {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre del cliente no puede estar vacío");
@@ -46,16 +46,18 @@ public class Cliente {
         if (nombre.trim().length() < 2) {
             throw new IllegalArgumentException("El nombre del cliente debe tener al menos 2 caracteres");
         }
+
     }
-    
+
     private void validarId(String id) {
         // CORRECCIÓN: Usar 'id' (el parámetro), no 'idCliente' (la variable global)
         if (id == null || id.trim().isEmpty()) {
             throw new IllegalArgumentException("El ID del cliente no puede estar vacío");
         }
-   
+
         if (id.length() < 5 || id.length() > 20) {
             throw new IllegalArgumentException("El ID del cliente debe tener entre 5 y 20 caracteres");
         }
+
     }
 }

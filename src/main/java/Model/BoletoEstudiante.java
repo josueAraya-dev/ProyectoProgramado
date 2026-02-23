@@ -24,7 +24,7 @@ public class BoletoEstudiante extends Boleto {
  
       @Override
     public String imprimir() {
-        return super.imprimir()+"\nDescuento:"+ descuento*100 +"%";
+        return super.imprimir()+"\nDescuento:"+ (descuento*100) +"%";
                 
     }
     

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 /**
  *
  * @author josue
@@ -13,7 +12,7 @@ import java.util.List;
 public class GestorEventos {
 
     private List<Evento> eventosCreados;
-
+    
     public GestorEventos() {
         this.eventosCreados = new ArrayList<>();
     }
