@@ -31,11 +31,11 @@
                               <Label text="ID Evento:" />
                               <TextField fx:id="txtEventoId" promptText="ID para Crear o Buscar" GridPane.columnIndex="1" />
                               <Label text="Nombre:" GridPane.rowIndex="1" />
-                              <TextField fx:id="txtEventoNombre" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                              <TextField fx:id="txtEventoNombre" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Fecha:" GridPane.rowIndex="2" />
-                              <DatePicker fx:id="dpFecha" maxWidth="Infinity" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                              <DatePicker fx:id="dpFecha" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <Label text="Precio Base:" GridPane.rowIndex="3" />
-                              <TextField fx:id="txtPrecioBase" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                              <TextField fx:id="txtPrecioBase" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                            </children>
                         </GridPane>
 
@@ -63,7 +63,13 @@
                         </HBox>
                         
                         <Region VBox.vgrow="ALWAYS" />
-                        <Button maxWidth="Infinity" onAction="#reiniciarSala" prefHeight="50.0" style="-fx-background-color: #000; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR TODAS LAS SALAS" />
+                        
+                        <VBox spacing="8.0">
+                           <children>
+                              <Button maxWidth="Infinity" onAction="#reiniciarSalaPorId" prefHeight="40.0" style="-fx-background-color: #5d6d7e; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR SALA (ID ARRIBA)" />
+                              <Button maxWidth="Infinity" onAction="#reiniciarTodoElSistema" prefHeight="40.0" style="-fx-background-color: #000; -fx-text-fill: white; -fx-font-weight: bold;" text="REINICIAR TODAS LAS SALAS" />
+                           </children>
+                        </VBox>
                      </children>
                   </VBox>
                   <VBox spacing="10.0" style="-fx-padding: 15; -fx-background-color: #f8f9fa;">

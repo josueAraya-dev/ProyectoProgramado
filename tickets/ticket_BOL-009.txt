@@ -1,10 +1,11 @@
 ********** FACTURA ELECTRÓNICA **********
 ----- TICKET -----
 ID: BOL-009
-Cliente: Felipe
-Evento: Obra Teatro
-Precio: 15000.0
+Cliente: Dayana
+Evento: Luna
+Asiento: 1-2
+Precio: 10000.0
 Acceso a lounge:true
 Lounge id:PLATINUM-S1
 ******************************************
-Generado el: 2026-02-22T22:30:49.335400700
+Generado el: 2026-02-23T10:55:36.891083200

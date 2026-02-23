@@ -1,10 +1,9 @@
 ********** FACTURA ELECTRÓNICA **********
 ----- TICKET -----
 ID: BOL-006
-Cliente: Navas
-Evento: Obra Teatro
-Precio: 15000.0
-Acceso a lounge:true
-Lounge id:PLATINUM-S1
+Cliente: Pitterson
+Evento: Luna
+Asiento: 1-1
+Precio: 5000.0
 ******************************************
-Generado el: 2026-02-22T22:24:35.021529500
+Generado el: 2026-02-23T10:55:22.734397100
