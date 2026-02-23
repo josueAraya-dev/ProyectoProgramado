@@ -1,0 +1,11 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-004
+Cliente: Dayana
+Evento: Lago
+Asiento: 1-2
+Precio: 7500.0
+Acceso a lounge:true
+Lounge id:PLATINUM-S1
+******************************************
+Generado el: 2026-02-23T10:03:14.403162400

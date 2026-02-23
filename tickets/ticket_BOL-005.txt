@@ -1,0 +1,9 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-005
+Cliente: Josue
+Evento: Lago cisness
+Asiento: 1-2
+Precio: 2500.0
+******************************************
+Generado el: 2026-02-23T10:20:11.722232900

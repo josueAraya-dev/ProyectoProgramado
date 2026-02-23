@@ -11,7 +11,7 @@ public class Asiento {
 
     public Asiento(int fila, int columna) {
         this(fila, columna, EstadoAsiento.Disponible);
-    }
+    }//constructor para creacion de objetos
 
     public Asiento(int fila, int columna, EstadoAsiento estado) {
         if (fila < 0 || columna < 0) {
@@ -28,11 +28,11 @@ public class Asiento {
     }//sobrecarga de constructores para facilitar lectura de archivos
 
     public int getFila() {
-        return fila+1;
+        return fila;
     }
 
     public int getColumna() {
-        return columna+1;
+        return columna;
     }
 
     public EstadoAsiento getEstado() {

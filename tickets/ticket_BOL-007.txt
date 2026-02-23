@@ -1,0 +1,10 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-007
+Cliente: Heyner
+Evento: Lago
+Precio: 10000.0
+Acceso a lounge:true
+Lounge id:PLATINUM-S1
+******************************************
+Generado el: 2026-02-23T09:50:59.719139700

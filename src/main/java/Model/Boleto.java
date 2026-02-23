@@ -37,6 +37,7 @@ public abstract class Boleto implements IImprimible {
         this.cliente = cliente;
         this.asiento = asiento;
         this.idBoleto = idBoleto;
+        
     }//constructor para persistencia recibe parametro id
     
     
@@ -69,7 +70,7 @@ public abstract class Boleto implements IImprimible {
     }
      
      private String generarIdBoleto() {
-        return "BOL-" + String.format("%06d", contadorBoletos++);
+        return "BOL-" + String.format("%03d", contadorBoletos++);
     }
     
     public String getIdBoleto() {
@@ -109,21 +110,20 @@ public abstract class Boleto implements IImprimible {
 
     @Override
     public String imprimir() {
-     
+        // Se suma 1 a la fila y columna para mostrar formato humano 1-10
+        String pos = (asiento.getFila() + 1) + "-" + (asiento.getColumna() + 1);
    
         return "----- TICKET -----\n"
                 + "ID: " + idBoleto + "\n"
                 + "Cliente: " + cliente.getNombre() + "\n"
                 + "Evento: " + evento.getNombre() + "\n"
+                + "Asiento: " + pos + "\n"
                 + "Precio: " + calcularPrecioFinal();
     }
     
 }
-
-
 //metodo sincronizar contador 
 /*Este método encuentra el ID más alto entre todos los boletos cargados y ajusta
  * el contador para que el próximo boleto creado tenga un ID único que no colisione
  * con los existentes.
- * 
-*/
+ * */

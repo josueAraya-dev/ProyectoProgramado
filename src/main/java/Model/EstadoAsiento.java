@@ -1,8 +1,8 @@
 package Model;
 
-enum EstadoAsiento{
+public enum EstadoAsiento{
 
     Disponible,
     Ocupado;
-
+   
 }

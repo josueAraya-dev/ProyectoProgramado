@@ -30,10 +30,12 @@ public class Admin implements Initializable {
     @FXML private TextField txtBusquedaId;
 
     private GestorEventos gestorEventos;
+    private Contexto contexto;
     private String idMemoriaEdicion = null; 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        contexto = Contexto.getInstance();
         gestorEventos = Contexto.getInstance().getGestorEventos();
         verRecaudacion(); 
         dpFecha.setEditable(false);
@@ -136,6 +138,9 @@ public class Admin implements Initializable {
         try {
             String id = txtEventoId.getText().trim();
             gestorEventos.eliminarEvento(id);
+          
+            contexto.guardarTodo();
+                    
             txtAreaReporte.appendText("\n[ELIMINADO] Evento con ID: " + id);
             verRecaudacion();
             limpiarFormulario();
@@ -145,65 +150,73 @@ public class Admin implements Initializable {
     }
 
     @FXML
-private void buscarCliente() {
-    String busqueda = txtBusquedaId.getText().trim();
-    StringBuilder sb = new StringBuilder();
+    private void buscarCliente() {
+        String busqueda = txtBusquedaId.getText().trim();
+        StringBuilder sb = new StringBuilder();
 
-    sb.append("\n==========================================\n");
+        sb.append("\n==========================================\n");
 
-    if (busqueda.isEmpty()) {
-        sb.append("--- LISTADO DE CLIENTES REGISTRADOS ---\n");
-        List<Cliente> clientes = Contexto.getInstance().getGestorClientes().getClientesCreados();
-        if (clientes.isEmpty()) {
-            sb.append("No hay clientes en el sistema.\n");
-        } else {
-            for (Cliente c : clientes) {
-                sb.append("ID: ").append(c.getIdCliente())
-                  .append(" | Nombre: ").append(c.getNombre()).append("\n");
-            }
-        }
-    } else {
-        try {
-            // 1. Buscamos los datos básicos del cliente
-            Cliente c = Contexto.getInstance().getGestorClientes().buscarclientePorId(busqueda);
-            sb.append("--- CLIENTE ENCONTRADO ---\n")
-              .append("Nombre: ").append(c.getNombre()).append("\n")
-              .append("Identificación: ").append(c.getIdCliente()).append("\n\n");
-
-            // 2. Buscamos su historial de compras en todos los eventos
-            sb.append("--- HISTORIAL DE COMPRAS ---\n");
-            int contadorBoletos = 0;
-            
-            // Recorremos cada evento registrado
-            for (Evento evento : gestorEventos.getEventosCreados()) {
-                // Filtramos los boletos de este evento que pertenezcan al cliente buscado
-                for (Boleto boleto : evento.getBoletosVendidos()) {
-                    if (boleto.getCliente().getIdCliente().equals(busqueda)) {
-                        contadorBoletos++;
-                        sb.append(" > Evento: ").append(evento.getNombre())
-                          .append(" | Ticket: ").append(boleto.getIdBoleto())
-                          .append(" | Asiento: ").append(boleto.getAsiento().getFila())
-                          .append("-").append(boleto.getAsiento().getColumna())
-                          .append("\n");
-                    }
+        if (busqueda.isEmpty()) {
+            sb.append("--- LISTADO DE CLIENTES REGISTRADOS ---\n");
+            List<Cliente> clientes = Contexto.getInstance().getGestorClientes().getClientesCreados();
+            if (clientes.isEmpty()) {
+                sb.append("No hay clientes en el sistema.\n");
+            } else {
+                for (Cliente c : clientes) {
+                    sb.append("ID: ").append(c.getIdCliente())
+                      .append(" | Nombre: ").append(c.getNombre()).append("\n");
                 }
             }
+        } else {
+            try {
+                // 1. Buscamos los datos básicos del cliente
+                Cliente c = Contexto.getInstance().getGestorClientes().buscarclientePorId(busqueda);
+                
+                // Validación por si el cliente no existe para evitar el NullPointerException
+                if (c == null) {
+                    mostrarAlerta("No encontrado", "No existe cliente con ID: " + busqueda);
+                    return;
+                }
 
-            if (contadorBoletos == 0) {
-                sb.append("Este cliente no ha realizado compras aún.\n");
-            } else {
-                sb.append("\nTotal de boletos adquiridos: ").append(contadorBoletos).append("\n");
+                sb.append("--- CLIENTE ENCONTRADO ---\n")
+                  .append("Nombre: ").append(c.getNombre()).append("\n")
+                  .append("Identificación: ").append(c.getIdCliente()).append("\n\n");
+
+                // 2. Buscamos su historial de compras en todos los eventos
+                sb.append("--- HISTORIAL DE COMPRAS ---\n");
+                int contadorBoletos = 0;
+                
+                // Recorremos cada evento registrado
+                for (Evento evento : gestorEventos.getEventosCreados()) {
+                    // Filtramos los boletos de este evento que pertenezcan al cliente buscado
+                    for (Boleto boleto : evento.getBoletosVendidos()) {
+                        if (boleto.getCliente().getIdCliente().equals(busqueda)) {
+                            contadorBoletos++;
+                            sb.append(" > Evento: ").append(evento.getNombre())
+                              .append(" | Ticket: ").append(boleto.getIdBoleto())
+                              // CORRECCIÓN AQUÍ: Se suma +1 a la fila y columna para que no salga 0-0
+                              .append(" | Asiento: ").append(boleto.getAsiento().getFila() + 1)
+                              .append("-").append(boleto.getAsiento().getColumna() + 1)
+                              .append("\n");
+                        }
+                    }
+                }
+
+                if (contadorBoletos == 0) {
+                    sb.append("Este cliente no ha realizado compras aún.\n");
+                } else {
+                    sb.append("\nTotal de boletos adquiridos: ").append(contadorBoletos).append("\n");
+                }
+
+            } catch (Exception e) {
+                mostrarAlerta("Error", "Ocurrió un error al buscar: " + e.getMessage());
+                return;
             }
-
-        } catch (Exception e) {
-            mostrarAlerta("No encontrado", "No existe cliente con ID: " + busqueda);
-            return;
         }
+        
+        txtAreaReporte.appendText(sb.toString()); 
+        txtAreaReporte.setScrollTop(Double.MAX_VALUE); 
     }
-    
-    txtAreaReporte.appendText(sb.toString()); 
-    txtAreaReporte.setScrollTop(Double.MAX_VALUE); 
-}
 
     @FXML
     private void verRecaudacion() {
@@ -226,7 +239,7 @@ private void buscarCliente() {
                       // MEJORA: Aquí incluimos el ID del cliente para que siempre sea visible
                       .append(" | Cliente: ").append(b.getCliente().getNombre())
                       .append(" (ID: ").append(b.getCliente().getIdCliente()).append(")")
-                      .append(" | Asiento: ").append(b.getAsiento().getFila()).append("-").append(b.getAsiento().getColumna())
+                      .append(" | Asiento: ").append(b.getAsiento().getFila()+1).append("-").append(b.getAsiento().getColumna()+1)
                       .append(" | Pago: ₡").append(String.format("%.2f", b.calcularPrecioFinal()))
                       .append("\n");
                 }
@@ -241,8 +254,40 @@ private void buscarCliente() {
 
     @FXML
     private void reiniciarSala() {
-        for (Evento e : gestorEventos.getEventosCreados()) e.ejecutarReinicioDeSala();
-        txtAreaReporte.appendText("\n[SISTEMA] Salas reiniciadas.");
+        // MEJORA: Ahora solicita el ID del evento específico para evitar borrar todo
+        String idParaReiniciar = txtEventoId.getText().trim();
+
+        if (idParaReiniciar.isEmpty()) {
+            mostrarAlerta("ID Requerido", "Ingrese el ID del evento que desea reiniciar en el campo 'ID Evento'.");
+            return;
+        }
+
+        try {
+            Evento eventoEncontrado = gestorEventos.buscarEventoPorId(idParaReiniciar);
+
+            // Ventana de confirmación para evitar accidentes
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmar Acción");
+            confirmacion.setHeaderText("¿Seguro que desea reiniciar el evento: " + eventoEncontrado.getNombre() + "?");
+            confirmacion.setContentText("Esta acción eliminará todos los boletos vendidos y liberará los asientos de este evento.");
+
+            if (confirmacion.showAndWait().get() == ButtonType.OK) {
+                eventoEncontrado.ejecutarReinicioDeSala();
+
+                // CORRECCIÓN: Guardamos inmediatamente para que el archivo CSV se sincronice
+                Contexto.getInstance().getPersistencia().guardarTodo(
+                    gestorEventos.getEventosCreados(), 
+                    Contexto.getInstance().getGestorClientes().getClientesCreados()
+                );
+                
+                txtAreaReporte.appendText("\n[SISTEMA] Sala de '" + eventoEncontrado.getNombre() + "' reiniciada y datos guardados.");
+                verRecaudacion(); 
+                limpiarFormulario();
+            }
+
+        } catch (Exception e) {
+            mostrarAlerta("Error", "No se encontró el evento con ID: " + idParaReiniciar);
+        }
     }
 
     @FXML private void limpiarFormulario() {

@@ -1,0 +1,10 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-013
+Cliente: Melissa
+Evento: Cascanuecez
+Precio: 25000.0
+Acceso a lounge:true
+Lounge id:PLATINUM-S1
+******************************************
+Generado el: 2026-02-22T20:13:23.060500900

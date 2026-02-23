@@ -115,76 +115,69 @@ public class VentanaPrincipal implements Initializable {
     }
 
     private void actualizarPrecioFinal() {
-    if (eventoSeleccionado == null || comboTipoBoleto.getValue() == null) return;
+        if (eventoSeleccionado == null || comboTipoBoleto.getValue() == null) return;
 
-    String tipo = comboTipoBoleto.getValue();
-    Cliente clienteDummy = new Cliente("Temp", "0"); // Cliente temporal para el cálculo
-    Asiento asientoDummy = new Asiento(0, 0);
-    Boleto boletoTemporal;
+        String tipo = comboTipoBoleto.getValue();
+        // CORRECCIÓN: Usamos un ID genérico que cumpla con la validación de no estar vacío
+        Cliente clienteDummy = new Cliente("Sistema", "99999"); 
+        Asiento asientoDummy = new Asiento(0, 0);
+        Boleto boletoTemporal;
 
-    // Polimorfismo en acción: Creamos el objeto según el tipo
-    boletoTemporal = switch (tipo) {
-        case "VIP" -> new BoletoVIP(eventoSeleccionado, clienteDummy, asientoDummy);
-        case "Estudiante" -> new BoletoEstudiante(eventoSeleccionado, clienteDummy, asientoDummy);
-        default -> new BoletoGeneral(eventoSeleccionado, clienteDummy, asientoDummy);
-    };
+        // Polimorfismo en acción: Creamos el objeto según el tipo
+        boletoTemporal = switch (tipo) {
+            case "VIP" -> new BoletoVIP(eventoSeleccionado, clienteDummy, asientoDummy);
+            case "Estudiante" -> new BoletoEstudiante(eventoSeleccionado, clienteDummy, asientoDummy);
+            default -> new BoletoGeneral(eventoSeleccionado, clienteDummy, asientoDummy);
+        };
 
-    // Aquí ocurre la magia: No importa qué boleto sea, el modelo sabe su precio
-    double precioFinal = boletoTemporal.calcularPrecioFinal();
-    
-    lblPrecioFinal.setText("Total a Pagar: ₡" + String.format("%.2f", precioFinal));
-}
+        // Aquí ocurre la magia: No importa qué boleto sea, el modelo sabe su precio
+        double precioFinal = boletoTemporal.calcularPrecioFinal();
+        
+        lblPrecioFinal.setText("Total a Pagar: ₡" + String.format("%.2f", precioFinal));
+    }
 
     @FXML
-private void confirmarCompra() {
-    try {
-        // 1. Validaciones de campos vacíos
-        if (eventoSeleccionado == null || filaSeleccionada == -1 || 
-            txtNombre.getText().trim().isEmpty() || txtId.getText().trim().isEmpty() || 
-            comboTipoBoleto.getValue() == null) {
-            mostrarAlerta("Error", "Complete todos los campos y seleccione su asiento.");
-            return;
-        }
-
-        String idCli = txtId.getText().trim();
-        String nomCli = txtNombre.getText().trim();
-
-        // --- CORRECCIÓN DE EXCEPCIÓN: Validar que el ID sea solo números ---
-        if (!idCli.matches("\\d+")) {
-            mostrarAlerta("Error de Formato", "La identificación debe contener únicamente números (sin letras ni espacios).");
-            return;
-        }
-        // -----------------------------------------------------------------
-
-        // PARCHE PARA LA EXCEPCION DE JOSUE
+    private void confirmarCompra() {
         try {
-            Contexto.getInstance().getGestorClientes().buscarclientePorId(idCli);
-        } catch (excepciones.ClienteNoEncontradoException e) {
-            Contexto.getInstance().getGestorClientes().crearCliente(nomCli, idCli);
+            // 1. Validaciones de campos vacíos
+            if (eventoSeleccionado == null || filaSeleccionada == -1 || 
+                txtNombre.getText().trim().isEmpty() || txtId.getText().trim().isEmpty() || 
+                comboTipoBoleto.getValue() == null) {
+                mostrarAlerta("Error", "Complete todos los campos y seleccione su asiento.");
+                return;
+            }
+
+            String idCli = txtId.getText().trim();
+            String nomCli = txtNombre.getText().trim();
+
+            // --- CORRECCIÓN DE EXCEPCIÓN: Validar que el ID sea solo números ---
+            if (!idCli.matches("\\d+")) {
+                mostrarAlerta("Error de Formato", "La identificación debe contener únicamente números (sin letras ni espacios).");
+                return;
+            }
+
+            Boleto boleto = gestorVentas.procesarVentaDeBoleto(
+                idCli, nomCli, eventoSeleccionado.getIdEvento(),
+                filaSeleccionada, columnaSeleccionada, comboTipoBoleto.getValue()
+            );
+
+            // Generar el archivo de texto para cumplir con el requerimiento de Facturación
+            Contexto.getInstance().getPersistencia().generarTicketTexto(boleto.imprimir(), boleto.getIdBoleto());
+
+            refrescarMatrizAsientos();
+            mostrarInfo("¡Compra exitosa!", "Se ha generado un ticket en la carpeta /tickets\n\n" + boleto.imprimir());
+
+            // Limpieza
+            filaSeleccionada = -1;
+            columnaSeleccionada = -1;
+            txtNombre.clear();
+            txtId.clear();
+
+        } catch (Exception e) {
+            // Este catch general evita que la app se cierre si ocurre algo inesperado
+            mostrarAlerta("Error en la compra", e.getMessage());
         }
-
-        Boleto boleto = gestorVentas.procesarVentaDeBoleto(
-            idCli, nomCli, eventoSeleccionado.getIdEvento(),
-            filaSeleccionada, columnaSeleccionada, comboTipoBoleto.getValue()
-        );
-
-        // Generar el archivo de texto para cumplir con el requerimiento de Facturación
-        Contexto.getInstance().getPersistencia().generarTicketTexto(boleto.imprimir(), boleto.getIdBoleto());
-
-        refrescarMatrizAsientos();
-        mostrarInfo("¡Compra exitosa!", "Se ha generado un ticket en la carpeta /tickets\n\n" + boleto.imprimir());
-
-        // Limpieza
-        filaSeleccionada = -1;
-        columnaSeleccionada = -1;
-        txtNombre.clear();
-        txtId.clear();
-
-    } catch (Exception e) {
-        // Este catch general evita que la app se cierre si ocurre algo inesperado
-        mostrarAlerta("Error en la compra", e.getMessage());
     }
-}
 
     @FXML private void switchToAdmin() throws Exception { App.setRoot("Admin"); }
     private void mostrarAlerta(String t, String m) { 

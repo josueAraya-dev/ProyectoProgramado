@@ -79,6 +79,8 @@ public class Evento {
 
     public void ejecutarReinicioDeSala() {
         this.sala.reiniciarSala();
+        // CORRECCIÓN: Se limpia la lista de boletos para que las nuevas ventas se registren
+        this.boletosVendidos.clear();
     }
 
     public String getIdEvento() {
@@ -131,6 +133,6 @@ public class Evento {
         if (precio <= 0) {
             throw new IllegalArgumentException("El precio base debe ser positivo");
         }
-        // Se eliminó la restricción de 1.000.000
+      
     }
 }

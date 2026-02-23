@@ -1,0 +1,10 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-002
+Cliente: Heyner Pitterson
+Evento: Lago cisness
+Asiento: 1-1
+Precio: 2250.0
+Descuento:10.0%
+******************************************
+Generado el: 2026-02-23T10:19:26.720082200
