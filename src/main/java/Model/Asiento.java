@@ -28,11 +28,11 @@ public class Asiento {
     }//sobrecarga de constructores para facilitar lectura de archivos
 
     public int getFila() {
-        return fila;
+        return fila+1;
     }
 
     public int getColumna() {
-        return columna;
+        return columna+1;
     }
 
     public EstadoAsiento getEstado() {

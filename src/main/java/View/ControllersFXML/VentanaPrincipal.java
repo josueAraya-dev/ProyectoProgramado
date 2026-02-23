@@ -115,16 +115,25 @@ public class VentanaPrincipal implements Initializable {
     }
 
     private void actualizarPrecioFinal() {
-        if (eventoSeleccionado == null || comboTipoBoleto.getValue() == null) return;
-        double precio = eventoSeleccionado.getPrecioBase();
-        String tipo = comboTipoBoleto.getValue();
-        double precioFinal = switch (tipo) {
-            case "VIP" -> precio + 5000;
-            case "Estudiante" -> precio * 0.90;
-            default -> precio;
-        };
-        lblPrecioFinal.setText("Total a Pagar: ₡" + String.format("%.2f", precioFinal));
-    }
+    if (eventoSeleccionado == null || comboTipoBoleto.getValue() == null) return;
+
+    String tipo = comboTipoBoleto.getValue();
+    Cliente clienteDummy = new Cliente("Temp", "0"); // Cliente temporal para el cálculo
+    Asiento asientoDummy = new Asiento(0, 0);
+    Boleto boletoTemporal;
+
+    // Polimorfismo en acción: Creamos el objeto según el tipo
+    boletoTemporal = switch (tipo) {
+        case "VIP" -> new BoletoVIP(eventoSeleccionado, clienteDummy, asientoDummy);
+        case "Estudiante" -> new BoletoEstudiante(eventoSeleccionado, clienteDummy, asientoDummy);
+        default -> new BoletoGeneral(eventoSeleccionado, clienteDummy, asientoDummy);
+    };
+
+    // Aquí ocurre la magia: No importa qué boleto sea, el modelo sabe su precio
+    double precioFinal = boletoTemporal.calcularPrecioFinal();
+    
+    lblPrecioFinal.setText("Total a Pagar: ₡" + String.format("%.2f", precioFinal));
+}
 
     @FXML
 private void confirmarCompra() {

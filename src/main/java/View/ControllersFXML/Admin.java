@@ -149,7 +149,6 @@ private void buscarCliente() {
     String busqueda = txtBusquedaId.getText().trim();
     StringBuilder sb = new StringBuilder();
 
-    // Añadimos un separador visual para diferenciar de registros anteriores
     sb.append("\n==========================================\n");
 
     if (busqueda.isEmpty()) {
@@ -165,20 +164,44 @@ private void buscarCliente() {
         }
     } else {
         try {
+            // 1. Buscamos los datos básicos del cliente
             Cliente c = Contexto.getInstance().getGestorClientes().buscarclientePorId(busqueda);
             sb.append("--- CLIENTE ENCONTRADO ---\n")
               .append("Nombre: ").append(c.getNombre()).append("\n")
-              .append("Identificación: ").append(c.getIdCliente()).append("\n");
+              .append("Identificación: ").append(c.getIdCliente()).append("\n\n");
+
+            // 2. Buscamos su historial de compras en todos los eventos
+            sb.append("--- HISTORIAL DE COMPRAS ---\n");
+            int contadorBoletos = 0;
+            
+            // Recorremos cada evento registrado
+            for (Evento evento : gestorEventos.getEventosCreados()) {
+                // Filtramos los boletos de este evento que pertenezcan al cliente buscado
+                for (Boleto boleto : evento.getBoletosVendidos()) {
+                    if (boleto.getCliente().getIdCliente().equals(busqueda)) {
+                        contadorBoletos++;
+                        sb.append(" > Evento: ").append(evento.getNombre())
+                          .append(" | Ticket: ").append(boleto.getIdBoleto())
+                          .append(" | Asiento: ").append(boleto.getAsiento().getFila())
+                          .append("-").append(boleto.getAsiento().getColumna())
+                          .append("\n");
+                    }
+                }
+            }
+
+            if (contadorBoletos == 0) {
+                sb.append("Este cliente no ha realizado compras aún.\n");
+            } else {
+                sb.append("\nTotal de boletos adquiridos: ").append(contadorBoletos).append("\n");
+            }
+
         } catch (Exception e) {
             mostrarAlerta("No encontrado", "No existe cliente con ID: " + busqueda);
             return;
         }
     }
     
-    // CAMBIO CLAVE: Usamos appendText en lugar de setText
     txtAreaReporte.appendText(sb.toString()); 
-    
-    // Opcional: Hace que el scroll baje automáticamente al final para ver el nuevo registro
     txtAreaReporte.setScrollTop(Double.MAX_VALUE); 
 }
 

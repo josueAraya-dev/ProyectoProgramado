@@ -1,9 +1,9 @@
 ********** FACTURA ELECTRÓNICA **********
 ----- TICKET -----
-ID: BOL-1
+ID: BOL-3
 Cliente: Heyner Pitterson
-Evento: Lago
-Precio: 2250.0
+Evento: Peces
+Precio: 4500.0
 Descuento:10.0%
 ******************************************
-Generado el: 2026-02-23T03:45:58.790759700
+Generado el: 2026-02-23T03:46:33.249830700
