@@ -1,0 +1,9 @@
+********** FACTURA ELECTRÓNICA **********
+----- TICKET -----
+ID: BOL-012
+Cliente: Manuel
+Evento: Cascanuecez
+Precio: 18000.0
+Descuento:10.0%
+******************************************
+Generado el: 2026-02-22T20:13:03.360068500

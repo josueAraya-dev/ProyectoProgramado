@@ -38,7 +38,7 @@ public class GestorVentas {
         // 2. Gestionar la información del cliente
         Cliente clienteComprador = gestorDeClientes.buscarclientePorId(identificacionCliente);
         if (clienteComprador == null) {
-            // Si no existe, el gestor de clientes lo crea y lo guarda automáticamente
+           
             clienteComprador = gestorDeClientes.crearCliente(nombreCompletoCliente, identificacionCliente);
         }
 

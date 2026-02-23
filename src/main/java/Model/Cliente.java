@@ -7,7 +7,7 @@ public class Cliente {
 
     private String nombre;
     private String idCliente;
-
+    
     public Cliente(String nombre, String idCliente) {
         // Primero validamos los parámetros que entran
         validarNombre(nombre);
